@@ -1,0 +1,32 @@
+<ion-view view-title="{{course.name}} class page" ng-controller="ClassPageCtrl">
+  <ion-content class="padding">
+    <div class="list card">
+      <div class="item item-divider">Games</div>
+      <div class="item item-body" ng-repeat="ag in available_games">
+        <div>
+          <h2>{{ag.game.activity.name}}</h2>
+          <img src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
+          <p>{{ag.game.description}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Word lists</div>
+      <div class="item item-body" ng-repeat="awl in available_word_lists">
+        <div>
+          <h2>{{awl.word_list.description}}</h2>
+        </div>
+      </div>
+    </div>
+    <div class="list card">
+      <div class="item item-divider">Audio blogs</div>
+      <div class="item item-body" ng-repeat="ap in available_posts">
+        <div>
+          <img src="" />
+          <h2>{{ap.post.title}}</h2>
+          <h2>{{ap.post.content}}</h2>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
