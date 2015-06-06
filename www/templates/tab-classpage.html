@@ -2,13 +2,15 @@
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-divider">Games</div>
-      <div class="item item-body" ng-repeat="ag in available_games">
-        <div>
-          <h2>{{ag.game.activity.name}}</h2>
-          <img src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
-          <p>{{ag.game.description}}</p>
-        </div>
-      </div>
+      <ion-list>
+        <ion-item ng-repeat="ag in available_games" type="item-text-wrap" ui-sref="tab.play-game({{ag.id}})">
+          <div>
+            <h2>{{ag.game.activity.name}}</h2>
+            <img src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
+            <p>{{ag.game.description}}</p>
+          </div>
+        </ion-item>
+      </ion-list>
     </div>
     <div class="list card">
       <div class="item item-divider">Word lists</div>

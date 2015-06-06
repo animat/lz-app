@@ -12,18 +12,27 @@ angular.module('starter.controllers', [])
   });
 })
 
-.controller('RecentCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
+.controller('RecentCtrl', function($scope, $http, API) {
+  $http.get(API.url+"feed_items/student/10052").success(function(resp) {
+    $scope.feed_items = resp;
+  }).error(function(resp) {
+    // TODO: Throw an error
+    $scope.feed_items = resp;
+  })
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
+.controller('PlayGameCtrl', function($scope, $stateParams, $http, API) {
+  $scope.game = {"activity": "test"};
+  /*$http.get(API.url+"games/"+$stateParams.agId).success(function(resp) {
+    $scope.game = resp;
+  }).error(function(resp) {
+    //TODO: Throw an error
+    $scope.game = resp;
+  })*/
 })
 
 .controller('AccountCtrl', function($scope) {
+  console.log("testing...");
   $scope.settings = {
     enableFriends: true
   };

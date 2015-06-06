@@ -47,26 +47,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
-
+  .state('tab.play-game', {
+    url: '/play-game/:agId',
+    views: {
+      'tab-play-game': {
+        templateUrl: 'templates/play-game.html',
+        controller: 'PlayGameCtrl'
+      }
+    }
+  })
+  
   .state('tab.recent', {
-      url: '/recent',
-      views: {
-        'tab-recent': {
-          templateUrl: 'templates/tab-recent.html',
-          controller: 'RecentCtrl'
-        }
+    url: '/recent',
+    views: {
+      'tab-recent': {
+        templateUrl: 'templates/tab-recent.html',
+        controller: 'RecentCtrl'
       }
-    })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
-      views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
-        }
-      }
-    })
-
+    }
+  })
+  
   .state('tab.account', {
     url: '/account',
     views: {
