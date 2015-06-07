@@ -1,11 +1,4 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -29,48 +22,49 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  // setup an abstract state for the tabs directive
-    .state('tab', {
-    url: "/tab",
+  // setup an abstract state for the app directive
+    .state('app', {
+    url: "/app",
     abstract: true,
-    templateUrl: "templates/tabs.html"
+    templateUrl: "templates/app.html"
   })
 
   // Each tab has its own nav history stack:
 
-  .state('tab.classpage', {
+  .state('app.classpage', {
     url: '/classpage',
+    cache: false,
     views: {
-      'tab-classpage': {
+      'app-classpage': {
         templateUrl: 'templates/tab-classpage.html',
         controller: 'ClassPageCtrl'
       }
     }
   })
-  .state('tab.play-game', {
+  .state('app.play-game', {
     url: '/play-game/:agId',
     views: {
-      'tab-play-game': {
+      'app-play-game': {
         templateUrl: 'templates/play-game.html',
         controller: 'PlayGameCtrl'
       }
     }
   })
   
-  .state('tab.recent', {
+  .state('app.recent', {
     url: '/recent',
     views: {
-      'tab-recent': {
+      'app-recent': {
         templateUrl: 'templates/tab-recent.html',
         controller: 'RecentCtrl'
       }
     }
   })
   
-  .state('tab.account', {
+  .state('app.account', {
     url: '/account',
     views: {
-      'tab-account': {
+      'app-account': {
         templateUrl: 'templates/tab-account.html',
         controller: 'AccountCtrl'
       }
@@ -78,6 +72,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/classpage');
+  $urlRouterProvider.otherwise('/app/classpage');
 
 });

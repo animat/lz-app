@@ -1,15 +1,12 @@
-angular.module('starter.controllers', [])
+angular.module('linguazone.controllers', [])
 
-.controller('ClassPageCtrl', function($scope, $http, API) {
-  $http.get(API.url+"courses/1866").success(function(resp) {
-    $scope.course = resp.course;
-    $scope.available_games = resp.games;
-    $scope.available_word_lists = resp.word_lists;
-    $scope.available_posts = resp.posts;
-  }).error(function(resp) {
-    // TODO: Throw an error
-    $scope.games = resp;
-  });
+.controller('ClassPageCtrl', function($scope, $http, API, ClassPageItems) {
+  ClassPageItems.getAll().then(function(response) {
+    $scope.course = response.data.course;
+    $scope.available_games = response.data.games;
+    $scope.available_word_lists = response.data.word_lists;
+    $scope.available_posts = response.data.posts;
+  })
 })
 
 .controller('RecentCtrl', function($scope, $http, API) {

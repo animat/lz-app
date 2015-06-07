@@ -3,7 +3,7 @@
     <div class="list card">
       <div class="item item-divider">Games</div>
       <ion-list>
-        <ion-item ng-repeat="ag in available_games" type="item-text-wrap" ui-sref="tab.play-game({{ag.id}})">
+        <ion-item ng-repeat="ag in available_games" type="item-text-wrap" ui-sref="app.play-game({ag: ag.id})">
           <div>
             <h2>{{ag.game.activity.name}}</h2>
             <img src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />

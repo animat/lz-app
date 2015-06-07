@@ -1,9 +1,41 @@
 <ion-view view-title="Account">
   <ion-content>
-    <ion-list>
-      <ion-toggle  ng-model="settings.enableFriends">
-          Enable Friends
-      </ion-toggle>
-    </ion-list>
+    <div class="card">
+      <div class="item item-divider">
+        Account info
+      </div>
+      <div class="item item-text-wrap">
+        Tommy Student<br />
+        <em>tommy@student.com</em>
+      </div>
+    </div>
+    <div class="card list">
+      <div class="item item-divider">
+        Class registration
+      </div>
+      <label class="item item-radio">
+        <input type="radio" name="current_section" checked>
+        <i class="radio-icon ion-checkmark"></i>
+        <div class="item-content">
+          Spanish 2A<br />
+          with Mrs. Otherteacher<br />
+          at The Schoolhouse
+        </div>
+      </label>
+      <label class="item item-radio">
+        <input type="radio" name="current_section">
+        <i class="radio-icon ion-checkmark"></i>
+        <div class="item-content">
+          Spanish 1<br />
+          with Mr. Teacher<br />
+          at The Schoolhouse
+        </div>
+      </label>
+    </div>
+    <div style="text-align: center">
+      <button class="button button-assertive">
+        <i class="icon ion-log-out"></i> Sign out of your account
+      </div>
+    </div>
   </ion-content>
 </ion-view>
