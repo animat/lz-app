@@ -4,14 +4,26 @@ angular.module('linguazone.services', [])
   url: '/api/v2/'
 })
 
-.factory('Games', function($http, API) {
-})
-
 .factory('ClassPageItems', function($http, API) {
   return {
     getAll: function() {
-      return $http.get(API.url+"courses/1866").then(function(resp) {
-        return resp;
+      return $http.get(API.url+"courses/1866").then(function(response) {
+        return response.data;
+      });
+    },
+    getGameInfo: function(agId) {
+      return $http.get(API.url+"games/"+agId).then(function(response) {
+        return response.data;
+      });
+    }
+  }
+})
+
+.factory('RecentItems', function($http, API) {
+  return {
+    getAll: function() {
+      return $http.get(API.url+"feed_items/student/10052").then(function(response) {
+        return response.data;
       });
     }
   }

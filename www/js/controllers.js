@@ -1,31 +1,26 @@
 angular.module('linguazone.controllers', [])
 
-.controller('ClassPageCtrl', function($scope, $http, API, ClassPageItems) {
+.controller('ClassPageCtrl', function($scope, ClassPageItems) {
   ClassPageItems.getAll().then(function(response) {
-    $scope.course = response.data.course;
-    $scope.available_games = response.data.games;
-    $scope.available_word_lists = response.data.word_lists;
-    $scope.available_posts = response.data.posts;
+    $scope.course = response.course;
+    $scope.available_games = response.games;
+    $scope.available_word_lists = response.word_lists;
+    $scope.available_posts = response.posts;
   })
 })
 
-.controller('RecentCtrl', function($scope, $http, API) {
-  $http.get(API.url+"feed_items/student/10052").success(function(resp) {
-    $scope.feed_items = resp;
-  }).error(function(resp) {
-    // TODO: Throw an error
-    $scope.feed_items = resp;
+.controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems) {
+  console.log($stateParams);
+  var agId = $stateParams.agId;
+  ClassPageItems.getGameInfo(agId).then(function(response) {
+    $scope.ag = response;
   })
 })
 
-.controller('PlayGameCtrl', function($scope, $stateParams, $http, API) {
-  $scope.game = {"activity": "test"};
-  /*$http.get(API.url+"games/"+$stateParams.agId).success(function(resp) {
-    $scope.game = resp;
-  }).error(function(resp) {
-    //TODO: Throw an error
-    $scope.game = resp;
-  })*/
+.controller('RecentCtrl', function($scope, $http, RecentItems) {
+  RecentItems.getAll().then(function(response) {
+    $scope.feed_items = response;
+  })
 })
 
 .controller('AccountCtrl', function($scope) {
