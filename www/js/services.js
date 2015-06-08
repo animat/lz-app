@@ -27,4 +27,14 @@ angular.module('linguazone.services', [])
       });
     }
   }
-});
+})
+
+.factory('StudentInfo', function($http, API) {
+  return {
+    getStudentInfo: function(sid) {
+      return $http.get(API.url+"students/"+sid).then(function(response) {
+        return response.data;
+      })
+    }
+  }
+})

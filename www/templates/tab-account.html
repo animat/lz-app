@@ -1,34 +1,25 @@
-<ion-view view-title="Account">
+<ion-view view-title="Account" ng-controller="AccountCtrl">
   <ion-content>
     <div class="card">
       <div class="item item-divider">
         Account info
       </div>
       <div class="item item-text-wrap">
-        Tommy Student<br />
-        <em>tommy@student.com</em>
+        {{student.display_name}}<br />
+        <em>{{student.email}}</em>
       </div>
     </div>
     <div class="card list">
       <div class="item item-divider">
         Class registration
       </div>
-      <label class="item item-radio">
+      <label class="item item-radio" ng-repeat="reg in registrations track by $index">
         <input type="radio" name="current_section" checked>
         <i class="radio-icon ion-checkmark"></i>
         <div class="item-content">
-          Spanish 2A<br />
-          with Mrs. Otherteacher<br />
-          at The Schoolhouse
-        </div>
-      </label>
-      <label class="item item-radio">
-        <input type="radio" name="current_section">
-        <i class="radio-icon ion-checkmark"></i>
-        <div class="item-content">
-          Spanish 1<br />
-          with Mr. Teacher<br />
-          at The Schoolhouse
+          {{reg.course_id}} (Class name)<br />
+          with (Teacher name)<br />
+          at The Schoolhouse (School name)
         </div>
       </label>
     </div>

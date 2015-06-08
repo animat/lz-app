@@ -2,10 +2,10 @@ angular.module('linguazone.controllers', [])
 
 .controller('ClassPageCtrl', function($scope, ClassPageItems) {
   ClassPageItems.getAll().then(function(response) {
-    $scope.course = response.course;
-    $scope.available_games = response.games;
-    $scope.available_word_lists = response.word_lists;
-    $scope.available_posts = response.posts;
+    $scope.course = angular.fromJson(response.course);
+    $scope.available_games = angular.fromJson(response.games);
+    $scope.available_word_lists = angular.fromJson(response.word_lists);
+    $scope.available_posts = angular.fromJson(response.posts);
   })
 })
 
@@ -23,9 +23,10 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('AccountCtrl', function($scope) {
-  console.log("testing...");
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('AccountCtrl', function($scope, $http, StudentInfo) {
+  StudentInfo.getStudentInfo(10052).then(function(response) {
+    $scope.student = angular.fromJson(response.student_data.student);
+    $scope.registrations = angular.fromJson(response.student_data.registrations);
+    console.log($scope.student.display_name);
+  })
 });
