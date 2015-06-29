@@ -3,8 +3,12 @@
   "app_id": "",
   "proxies": [
     {
-      "path": "/api/v2",
-      "proxyUrl": "http://localhost:3000/api/v2"
+      "path": "/api",
+      "proxyUrl": "http://lgz.ivanix.com/api"
+    },
+    {
+      "path": "/games",
+      "proxyUrl": "http://lgz.ivanix.com/games"
     }
   ]
 }
