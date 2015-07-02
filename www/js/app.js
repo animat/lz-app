@@ -50,6 +50,24 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
+  .state('app.review-word-list', {
+    url: '/review-word-list/:awlId',
+    views: {
+      'app-review-word-list': {
+        templateUrl: 'templates/review-word-list.html',
+        controller: 'ReviewWordListCtrl'
+      }
+    }
+  })
+  .state('app.view-post', {
+    url: '/view-post/:apId',
+    views: {
+      'app-view-post': {
+        templateUrl: 'templates/view-post.html',
+        controller: 'ViewPostCtrl'
+      }
+    }
+  })
   
   .state('app.recent', {
     url: '/recent',

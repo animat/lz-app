@@ -6,7 +6,7 @@
         <ion-item ng-repeat="ag in available_games" type="item-text-wrap" ui-sref="app.play-game({agId: ag.id})">
           <div>
             <h2>{{ag.game.activity.name}}</h2>
-            <img src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
+            <img ng-src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
             <p>{{ag.game.description}}</p>
           </div>
         </ion-item>
@@ -14,21 +14,26 @@
     </div>
     <div class="list card">
       <div class="item item-divider">Word lists</div>
-      <div class="item item-body" ng-repeat="awl in available_word_lists">
-        <div>
-          <h2>{{awl.word_list.description}}</h2>
-        </div>
+      <ion-list>
+        <ion-item ng-repeat="awl in available_word_lists" type="item-text-wrap" ui-sref="app.review-word-list({awlId: awl.id})">
+          <div>
+            <h2>{{awl.word_list.description}}</h2>
+          </div>
+        </ion-item>
+      </ion-list>
       </div>
     </div>
     <div class="list card">
       <div class="item item-divider">Audio blogs</div>
-      <div class="item item-body" ng-repeat="ap in available_posts">
-        <div>
-          <img src="" />
-          <h2>{{ap.post.title}}</h2>
-          <h2>{{ap.post.content}}</h2>
-        </div>
-      </div>
+      <ion-list>
+        <ion-item ng-repeat="ap in available_posts" type="item-text-wrap" ui-sref="app.view-post({apId: ap.id})">
+          <div>
+            <img src="" />
+            <h2>{{ap.post.title}}</h2>
+            <h2>{{ap.post.content}}</h2>
+          </div>
+        </ion-item>
+      </ion-list>
     </div>
   </ion-content>
 </ion-view>

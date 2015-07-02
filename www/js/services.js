@@ -15,6 +15,16 @@ angular.module('linguazone.services', [])
       return $http.get(API.url+"games/"+agId).then(function(response) {
         return response.data;
       });
+    },
+    getWordListInfo: function(awlId) {
+      return $http.get(API.url+"word_lists/"+awlId).then(function(response) {
+        return response.data;
+      });
+    },
+    getPostInfo: function(apId) {
+      return $http.get(API.url+"posts/"+apId).then(function(response) {
+        return response.data;
+      })
     }
   }
 })

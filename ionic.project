@@ -1,6 +1,6 @@
 {
   "name": "lgz-app",
-  "app_id": "",
+  "app_id": "6c6ec43c",
   "proxies": [
     {
       "path": "/api/v2",

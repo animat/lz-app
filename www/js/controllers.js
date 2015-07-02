@@ -17,6 +17,22 @@ angular.module('linguazone.controllers', [])
   })
 })
 
+.controller('ReviewWordListCtrl', function($scope, $stateParams, ClassPageItems) {
+  console.log($stateParams);
+  var awlId = $stateParams.awlId;
+  ClassPageItems.getWordListInfo(awlId).then(function(response) {
+    $scope.awl = response;
+  })
+})
+
+.controller('ViewPostCtrl', function($scope, $stateParams, ClassPageItems) {
+  console.log($stateParams);
+  var apId = $stateParams.apId;
+  ClassPageItems.getPostInfo(apId).then(function(response) {
+    $scope.ap = response;
+  })
+})
+
 .controller('RecentCtrl', function($scope, $http, RecentItems) {
   RecentItems.getAll().then(function(response) {
     $scope.feed_items = response;
