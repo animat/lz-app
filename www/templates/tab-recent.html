@@ -2,8 +2,26 @@
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-body" ng-repeat="fi in feed_items">
-        <h2>{{fi.sourceable_id}}</h2>
-        <p>{{fi}}</p>
+        <div ng-class="fi.sourceable_type" ng-switch on="fi.sourceable_type">
+          <div class="recent_game" ng-switch-when="HighScore">
+            <img ng-src="http://linguazone.s3.amazonaws.com/images/games/leapFrog/leapFrog.jpg">
+            <h2>Leap Frog</h2>
+            <p>Timestamp</p>
+            <p>Optional score</p>
+          </div>
+          <div class="recent_study" ng-switch-when="StudyHistory">
+            <img src="/img/study_word_list.png" />
+            <h2>{{item.action}}</h2>
+            <p>Timestamp</p>
+            <p>More data here</p>
+          </div>
+          <div class="recent_comment" ng-switch-when="Comment">
+            <img src="/img/speech_bubble.jpg" />
+            <h2>Post title...</h2>
+            <p>Comment goes here comment goes here</p>
+            <p>Timestamp</p>
+          </div>
+        </div>
       </div>
     </div>
   </ion-content>
