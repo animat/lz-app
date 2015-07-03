@@ -5,17 +5,21 @@
     angular: true,
     console: true,
     cordova: true,
+    K: true,
     StatusBar: true,
     window: true
  */
 /*jslint  nomen: true, sloppy: true */
-angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services'])
+/*
     .constant('API', {
         url: 'http://lgz.ivanix.com/api/v2/'
     })
-    .constant('GAMES', {
-        url: 'http://lgz.ivanix.com/games/'
-    })
+
+        api: 'http://lgz.ivanix.com/api/v2/',
+        gamedir: 'http://lgz.ivanix.com/games/'
+
+    */
+angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services'])
     .run(function ($ionicPlatform) {
         window.g = window.g || {};
         window.g.ip = $ionicPlatform;

@@ -3,7 +3,8 @@
     require: true,
     process: true,
     angular: true,
-    console: true
+    console: true,
+    Lgz: true
  */
 /*jslint  nomen: true, sloppy: true */
 angular.module('linguazone.controllers', [])
@@ -24,10 +25,24 @@ angular.module('linguazone.controllers', [])
         console.log($stateParams);
         var agId = $stateParams.agId;
         console.log('ClassPageItems:getGameInfo:before');
+
+        $scope.$on('$ionicView.loaded', function () {
+            console.log('PlayGameCtrl: $ionicView.loaded');
+            //ivanixcu todo: init msgframe, perhaps need better name than eventFrameInit
+            //Lgz.eventFrameInit();
+        });
+
+        $scope.$on('$ionicView.enter', function () {
+            console.log('PlayGameCtrl: $ionicView.entered');
+            Lgz.eventFrameInit();
+
+        });
+
         ClassPageItems.getGameInfo(agId)
             .then(function (response) {
                 console.log('ClassPageItems:getGameInfo:then');
                 $scope.ag = response;
+
             });
     })
     .controller('RecentCtrl', function ($scope, $http, RecentItems) {

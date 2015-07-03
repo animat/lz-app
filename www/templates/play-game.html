@@ -1,11 +1,12 @@
 <ion-view view-title="Play a game!" xxx-controller="PlayGameCtrl">
+    <h1>XXXX</h1>
     <h1>Play {{ag.game.activity.name}}</h1>
-    <h1>Play {{ag.game.activity.swf}}</h1>
+    <h3>GameId: {{ag.game_id}}</h3>
+    <h3>UserId: {{ag.user_id}}</h3>
     <!--
     <div style="width:200px; height: 200px; background-color: red; color: white;"/>
     -->
     <div style="">
-<iframe id="lgzFrame"  src="http://localhost/Projects/Clients/LinguaZone/lz-games/html5_games/sources/"
-frame.html" swf="{{ag.game.activity.swf}}" gameid="" userid="" height="425" width="600" frameBorder="0" allowfullscreen  webkitallowfullscreen mozallowfullscreen onload="console.log('iframe1')"></iframe>
+<iframe id="lgzFrame" src userid="{{ag.user_id}}" gameid="{{ag.game_id}}" gameswf="{{ag.game.activity.swf}}" height="425" width="600" frameBorder="1" allowfullscreen  webkitallowfullscreen mozallowfullscreen onload="console.log('iframe1')"></iframe>
     </div>
 </ion-view>
