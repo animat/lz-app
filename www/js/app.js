@@ -36,8 +36,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     cache: false,
     views: {
       'app-classpage': {
-        templateUrl: 'templates/tab-classpage.html',
-        controller: 'ClassPageCtrl'
+        templateUrl: 'templates/tab-classpage.html'
       }
     }
   })
@@ -45,8 +44,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     url: '/play-game/:agId',
     views: {
       'app-classpage': {
-        templateUrl: 'templates/play-game.html',
-        controller: 'PlayGameCtrl'
+        templateUrl: 'templates/play-game.html'
       }
     }
   })
@@ -54,8 +52,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     url: '/review-word-list/:awlId',
     views: {
       'app-classpage': {
-        templateUrl: 'templates/review-word-list.html',
-        controller: 'ReviewWordListCtrl'
+        templateUrl: 'templates/review-word-list.html'
       }
     }
   })
@@ -63,8 +60,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     url: '/view-post/:apId',
     views: {
       'app-classpage': {
-        templateUrl: 'templates/view-post.html',
-        controller: 'ViewPostCtrl'
+        templateUrl: 'templates/view-post.html'
       }
     }
   })
@@ -73,8 +69,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     url: '/recent',
     views: {
       'app-recent': {
-        templateUrl: 'templates/tab-recent.html',
-        controller: 'RecentCtrl'
+        templateUrl: 'templates/tab-recent.html'
       }
     }
   })
@@ -83,8 +78,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     url: '/account',
     views: {
       'app-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+        templateUrl: 'templates/tab-account.html'
       }
     }
   });
