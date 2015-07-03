@@ -44,7 +44,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   .state('app.play-game', {
     url: '/play-game/:agId',
     views: {
-      'app-play-game': {
+      'app-classpage': {
         templateUrl: 'templates/play-game.html',
         controller: 'PlayGameCtrl'
       }
@@ -53,7 +53,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   .state('app.review-word-list', {
     url: '/review-word-list/:awlId',
     views: {
-      'app-review-word-list': {
+      'app-classpage': {
         templateUrl: 'templates/review-word-list.html',
         controller: 'ReviewWordListCtrl'
       }
@@ -62,7 +62,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   .state('app.view-post', {
     url: '/view-post/:apId',
     views: {
-      'app-view-post': {
+      'app-classpage': {
         templateUrl: 'templates/view-post.html',
         controller: 'ViewPostCtrl'
       }
