@@ -1,4 +1,4 @@
-angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services'])
+angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services', 'linguazone.directives'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -12,6 +12,13 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       StatusBar.styleLightContent();
     }
   });
+})
+
+.config(function($sceDelegateProvider, $compileProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+    'self', 'http://www.linguazone.com/**', 'http://linguazone.s3.amazonaws.com/**'
+  ]);
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
 
 .config(function($stateProvider, $urlRouterProvider) {

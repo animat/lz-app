@@ -1,16 +1,35 @@
-<ion-view view-title="Audio blog post" ng-controller="ReviewWordListCtrl">
+<ion-view view-title="Audio blog post" ng-controller="ViewPostCtrl">
   <ion-content>
-    <h1>Audio blog post</h1>
+    <h1>{{post.title}}</h1>
     <div>
-      <h2>Teacher's post here...</h2>
+      <lgz-audio-player audio-id="123"></lgz-audio-player>
+      <h2>{{post.body}}</h2>
     </div>
-    <ol>
-      <li>Student comment...</li>
-      <li>Student comment...</li>
-      <li>Student comment...</li>
+    <ol ng-show="comments.length > 0">
+      <li ng-repeat="comment in comments track by $index">
+        <lgz-audio-player audio-id="456"></lgz-audio-player>
+        <div>
+          <div>
+            <blockquote>{{comment.content}}</blockquote>
+            <cite>{{comment.user.display_name}}</cite>
+          </div>
+      </li>
     </ol>
-    <div>
-      <p>Record your own comment here!</p>
-    </div>
+    
+    <form style="max-width: 500px">
+      <p>Leave a comment</p>
+      <div class="list list-inset">
+        <p>Your name: [current user's name]</p>
+        <label class="item item-input">
+          <textarea placeholder="Your comment"></textarea>
+        </label>
+        <label class="item item-input">
+          <button class="button button-outline button-assertive" ng-click="getPhoto()">
+            <i class="icon ion-android-microphone"></i> Record an audio comment {{tmp}}
+          </button>
+        </label>
+      </div>
+      <button class="button button-positive">Submit your comment</button>
+    </p>
   </ion-content>
 </ion-view>

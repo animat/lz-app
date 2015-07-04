@@ -24,11 +24,20 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('ViewPostCtrl', function($scope, $stateParams, ClassPageItems) {
+.controller('ViewPostCtrl', function($scope, $stateParams, ClassPageItems, Recorder) {
   var apId = $stateParams.apId;
   
+  $scope.recordAudio = function() {
+    Recorder.recordAudio({limit: 1, duration: 600}).then(function(result) {
+      console.log(result);
+    }, function(err) {
+      console.log(err);
+    });
+  };
+  
   ClassPageItems.getPostInfo(apId).then(function(response) {
-    $scope.ap = response;
+    $scope.post = angular.fromJson(response.post);
+    $scope.comments = angular.fromJson(response.comments);
   })
 })
 

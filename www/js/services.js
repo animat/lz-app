@@ -4,10 +4,26 @@ angular.module('linguazone.services', [])
   url: '/api/v2/'
 })
 
+.factory('Recorder', ['$q', function($q) {
+  return {
+    recordAudio: function(options) {
+      var q = $q.defer();
+
+      navigator.device.capture.captureAudio(function(result) {
+        q.resolve(result);
+      }, function(err) {
+        q.reject(err);
+      }, options);
+
+      return q.promise;
+    }
+  }
+}])
+
 .factory('ClassPageItems', function($http, API) {
   return {
     getAll: function() {
-      return $http.get(API.url+"courses/1866").then(function(response) {
+      return $http.get(API.url+"courses/2495").then(function(response) {
         return response.data;
       });
     },
