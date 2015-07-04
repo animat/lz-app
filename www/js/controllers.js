@@ -10,7 +10,6 @@ angular.module('linguazone.controllers', [])
 })
 
 .controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems) {
-  console.log($stateParams);
   var agId = $stateParams.agId;
   ClassPageItems.getGameInfo(agId).then(function(response) {
     $scope.ag = response;
@@ -18,16 +17,16 @@ angular.module('linguazone.controllers', [])
 })
 
 .controller('ReviewWordListCtrl', function($scope, $stateParams, ClassPageItems) {
-  console.log($stateParams);
   var awlId = $stateParams.awlId;
   ClassPageItems.getWordListInfo(awlId).then(function(response) {
-    $scope.awl = response;
+    $scope.list = response;
+    $scope.nodes = new X2JS().xml_str2json(response.xml).gamedata.node;
   })
 })
 
 .controller('ViewPostCtrl', function($scope, $stateParams, ClassPageItems) {
-  console.log($stateParams);
   var apId = $stateParams.apId;
+  
   ClassPageItems.getPostInfo(apId).then(function(response) {
     $scope.ap = response;
   })
