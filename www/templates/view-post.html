@@ -2,17 +2,19 @@
   <ion-content>
     <h1>{{post.title}}</h1>
     <div>
-      <lgz-audio-player audio-id="123"></lgz-audio-player>
-      <h2>{{post.body}}</h2>
+      <h2>{{post.content}}</h2>
+      <lgz-audio-player audio-id="post.audio_id" ng-show="post.audio_id > 0"></lgz-audio-player>
     </div>
     <ol ng-show="comments.length > 0">
-      <li ng-repeat="comment in comments track by $index">
-        <lgz-audio-player audio-id="456"></lgz-audio-player>
-        <div>
+      <!-- TODO: Only show comments if the post is shared OR if the post is by the current user OR the teacher -->
+      <li ng-repeat="comment in comments track by $index" ng-show="post.shared || comment.user_id > 0">
+        <div class="audio_comment">
+          <lgz-audio-player audio-id="comment.audio_id" ng-show="comment.audio_id > 0"></lgz-audio-player>
           <div>
             <blockquote>{{comment.content}}</blockquote>
             <cite>{{comment.user.display_name}}</cite>
           </div>
+          <!-- TODO: Show teacher feedback if this comment is by the current user -->
       </li>
     </ol>
     

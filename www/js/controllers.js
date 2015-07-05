@@ -37,6 +37,7 @@ angular.module('linguazone.controllers', [])
   
   ClassPageItems.getPostInfo(apId).then(function(response) {
     $scope.post = angular.fromJson(response.post);
+    console.log($scope.post.shared);
     $scope.comments = angular.fromJson(response.comments);
   })
 })

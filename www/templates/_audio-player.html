@@ -1,6 +1,6 @@
 <div class="audio_player">
   <p>Playing audio id... {{audioId}}</p>
-	<audio controls>
-		<source src="http://linguazone.s3.amazonaws.com/audio/14950.mp3" />
+	<audio controls preload="none">
+		<source ng-src="{{audioUrl}}" />
 	</audio>
 </div>
