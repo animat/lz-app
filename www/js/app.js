@@ -1,4 +1,4 @@
-angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services', 'linguazone.directives'])
+angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services', 'linguazone.directives', 'ng-token-auth'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -19,6 +19,38 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     'self', 'http://www.linguazone.com/**', 'http://linguazone.s3.amazonaws.com/**'
   ]);
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+})
+
+.config(function($authProvider) {
+  $authProvider.configure({
+    apiUrl:                 '/api/v2',
+    tokenValidationPath:    '/auth/validate_token',
+    signOutUrl:             '/auth/sign_out',
+    emailRegistrationPath:  '/auth',
+    passwordResetSuccessUrl:window.location.href,
+    emailSignInPath:        '/auth/sign_in',
+    storage:                'cookies',
+    authProviderPaths: {
+      google:   '/auth/google'
+    },
+    tokenFormat: {
+      "client":       "{{ clientId }}",
+      "access-token": "{{ token }}"
+    },
+    parseExpiry: function(headers) {
+      // convert from UTC ruby (seconds) to UTC js (milliseconds)
+      return (parseInt(headers['expiry']) * 1000) || null;
+    },
+    handleLoginResponse: function(response) {
+      return response.data;
+    },
+    handleAccountResponse: function(response) {
+      return response.data;
+    },
+    handleTokenValidationResponse: function(response) {
+      return response.data;
+    }
+  })
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -86,6 +118,15 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     views: {
       'app-account': {
         templateUrl: 'templates/tab-account.html'
+      }
+    }
+  })
+  
+  .state('app.login', {
+    url: '/account/login',
+    views: {
+      'app-account': {
+        templateUrl: 'templates/login.html'
       }
     }
   });

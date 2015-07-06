@@ -54,4 +54,18 @@ angular.module('linguazone.controllers', [])
     $scope.registrations = angular.fromJson(response.student_data.registrations);
     console.log($scope.student.display_name);
   })
+})
+
+.controller('LoginCtrl', function($scope, $auth) {
+  $scope.loginData = {};
+  
+  $scope.submitLoginInfo = function() {
+    $auth.submitLogin($scope.loginData)
+      .then(function(resp) {
+        console.log("SUCCESSFULLY LOGGED IN!!!!", resp);
+      })
+      .catch(function(resp) {
+        console.log("failed.ouch.", resp);
+      })
+  }
 });
