@@ -28,13 +28,11 @@ angular.module('linguazone.controllers', [])
 
         $scope.$on('$ionicView.loaded', function () {
             console.log('PlayGameCtrl: $ionicView.loaded');
-            //ivanixcu todo: init msgframe, perhaps need better name than eventFrameInit
-            //Lgz.eventFrameInit();
         });
 
         $scope.$on('$ionicView.enter', function () {
             console.log('PlayGameCtrl: $ionicView.entered');
-            Lgz.eventFrameInit();
+            Lgz.initMsgFrameNative();
 
         });
 
