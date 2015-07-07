@@ -1,6 +1,13 @@
 angular.module('linguazone.controllers', [])
 
-.controller('ClassPageCtrl', function($scope, ClassPageItems) {  
+.controller('ClassPageCtrl', function($scope, ClassPageItems, StudentInfo) {  
+  $scope.$watch(
+    function() { return StudentInfo.currentCourse; },
+    function(val) {
+      console.log("ClassPage $watch...",val);
+      $scope.getClassPageContents(val.registration.course_id);
+    }
+  );
   $scope.getClassPageContents = function(courseId) {
     ClassPageItems.getAll(courseId).then(function(response) {
       $scope.course = angular.fromJson(response.course);
@@ -50,39 +57,30 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('AccountCtrl', function($scope, $rootScope, $http, $auth, StudentInfo) {
-  $rootScope.$on("auth:login-success", function() {
-    console.log("auth:login-success! Updating account info...")
-    $scope.updateAccountInfo();
-  });
-  
-  $rootScope.$on("account:current-course", function(event, params) {
-    $scope.currentCourse = params.courseId;
-    console.log("\tBroadcast received by account ctrl");
-  });
-  
+.controller('AccountCtrl', function($scope, $http, $auth, StudentInfo) {
   $scope.sortRegistration = function(reg) {
     console.log("sorting registration...",reg);
     return new Date(reg.created_at);
   }
   
-  $scope.updateCurrentCourse = function(courseId) {
-    StudentInfo.setCurrentCourse(courseId);
-    console.log("About to broadcast...");
-    $rootScope.$broadcast('account:current-course', {'status': 'update', 'courseId': courseId});
-  }
+  $scope.currentCourse = StudentInfo.currentCourse;
+  $scope.$watch(
+    function() { return StudentInfo.user; },
+    function (newVal, oldVal) {
+      $scope.updateAccountInfo();
+    }
+  );
   
   $scope.updateAccountInfo = function() {
-    console.log("Updating account info...",$auth);
     if ($auth.user.uid) {
       StudentInfo.getStudentInfo($auth.user.uid).then(function(response) {
         $scope.student = angular.fromJson(response.student_data.student);
         $scope.registrations = angular.fromJson(response.student_data.registrations);
-        $scope.updateCurrentCourse($scope.registrations[0]);
+        $scope.currentCourse.registration = $scope.registrations[$scope.registrations.length-1];
       })
     } else {
-      console.log("Sorry. no authentication.");
       $scope.student = {};
+      $scope.currentCourse.registration = {};
       $scope.registrations = [];
     }
   }
@@ -90,7 +88,6 @@ angular.module('linguazone.controllers', [])
   $scope.handleSignOut = function() {
     $auth.signOut()
       .then(function(resp) {
-        console.log("Logged out!",resp);
         $scope.updateAccountInfo();
       })
       .catch(function(resp) {
@@ -99,13 +96,13 @@ angular.module('linguazone.controllers', [])
   }
 })
 
-.controller('LoginFormCtrl', function($scope, $auth, $state) {
+.controller('LoginFormCtrl', function($scope, $auth, $state, StudentInfo) {
   $scope.loginData = {};
   
   $scope.submitLoginInfo = function() {
     $auth.submitLogin($scope.loginData)
       .then(function(resp) {
-        //console.log("submitLogin() success! ",resp);
+        StudentInfo.user = resp.info;
         $state.go('app.account');
       })
       .catch(function(resp) {

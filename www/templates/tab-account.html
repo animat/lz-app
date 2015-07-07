@@ -27,7 +27,7 @@
       </div>
       <!-- TODO: Registrations should sort in order of when the registration was created. Currently not working. -->
       <label class="item item-radio" ng-repeat="reg in registrations track by $index | orderBy : sortRegistration(reg) : true">
-        <input type="radio" name="currentCourse" checked ng-click="updateCurrentCourse(reg.course.id)">
+        <input type="radio" ng-model="$parent.currentCourse.registration" ng-value="reg">
         <i class="radio-icon ion-checkmark"></i>
         <div class="item-content">
           {{reg.course.name}}<br />
