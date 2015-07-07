@@ -1,7 +1,7 @@
 angular.module('linguazone.services', [])
 
 .constant('API', {
-  url: '/api/v2/'
+  url: 'http://localhost:3000/api/v2/'
 })
 
 .factory('Recorder', ['$q', function($q) {
@@ -20,10 +20,27 @@ angular.module('linguazone.services', [])
   }
 }])
 
+.factory('$localstorage', ['$window', function($window) {
+  return {
+    set: function(key, value) {
+      $window.localStorage[key] = value;
+    },
+    get: function(key, defaultValue) {
+      return $window.localStorage[key] || defaultValue;
+    },
+    setObject: function(key, value) {
+      $window.localStorage[key] = angular.toJson(value);
+    },
+    getObject: function(key) {
+      return JSON.parse($window.localStorage[key] || '{}');
+    }
+  }
+}])
+
 .factory('ClassPageItems', function($http, API) {
   return {
-    getAll: function() {
-      return $http.get(API.url+"courses/2495").then(function(response) {
+    getAll: function(courseId) {
+      return $http.get(API.url+"courses/"+courseId).then(function(response) {
         return response.data;
       });
     },
@@ -56,7 +73,14 @@ angular.module('linguazone.services', [])
 })
 
 .factory('StudentInfo', function($http, API) {
+  var currentCourse = 0;
   return {
+    getCurrentCourse: function() {
+      return currentCourse;
+    },
+    setCurrentCourse: function(c) {
+      currentCourse = c;
+    },
     getStudentInfo: function(sid) {
       return $http.get(API.url+"students/"+sid).then(function(response) {
         return response.data;

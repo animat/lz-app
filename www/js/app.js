@@ -14,6 +14,23 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   });
 })
 
+.factory('authInterceptor', function($window) {
+  return {
+    "request": function(config) {
+      config.headers = config.headers || {};
+      if ($window.localStorage["auth_headers"]) {
+        config.headers.Authorization = angular.toJson($window.localStorage["auth_headers"]);
+      }
+      return config;
+    }
+  }
+})
+
+.config(function($httpProvider) {
+  $httpProvider.defaults.withCredentials = true;
+  $httpProvider.interceptors.push('authInterceptor');
+})
+
 .config(function($sceDelegateProvider, $compileProvider) {
   $sceDelegateProvider.resourceUrlWhitelist([
     'self', 'http://www.linguazone.com/**', 'http://linguazone.s3.amazonaws.com/**'
@@ -23,25 +40,34 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
 
 .config(function($authProvider) {
   $authProvider.configure({
-    apiUrl:                 '/api/v2',
+    apiUrl:                 'http://localhost:3000/api/v2',
     tokenValidationPath:    '/auth/validate_token',
     signOutUrl:             '/auth/sign_out',
     emailRegistrationPath:  '/auth',
     passwordResetSuccessUrl:window.location.href,
     emailSignInPath:        '/auth/sign_in',
-    storage:                'cookies',
+    storage:                'localStorage',
     authProviderPaths: {
       google:   '/auth/google'
     },
     tokenFormat: {
-      "client":       "{{ clientId }}",
-      "access-token": "{{ token }}"
+      "info":         "{{ info }}",
+      "token":        "{{ accessToken }}",
+      "uid":          "{{ uid }}",
+      "provider":     "{{ provider }}",
+      "expiry":       "{{ expiry }}"
     },
     parseExpiry: function(headers) {
       // convert from UTC ruby (seconds) to UTC js (milliseconds)
       return (parseInt(headers['expiry']) * 1000) || null;
     },
-    handleLoginResponse: function(response) {
+    handleLoginResponse: function(response, $auth) {
+      $auth.persistData('auth_headers', {
+        "token": response.data.token,
+        "uid": response.data.uid,
+        "provider": response.data.provider,
+        "expiry": response.data.expiry
+      });
       return response.data;
     },
     handleAccountResponse: function(response) {
@@ -123,7 +149,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   })
   
   .state('app.login', {
-    url: '/account/login',
+    url: '/login',
     views: {
       'app-account': {
         templateUrl: 'templates/login.html'

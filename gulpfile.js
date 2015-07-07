@@ -52,23 +52,3 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
-
-gulp.task('add-proxy', function() {
-  return replace({
-    regex: "http://localhost:3000/api/v2",
-    replacement: "http://localhost:8100/api/v2",
-    paths: replaceFiles,
-    recursive: false,
-    silent: false,
-  });
-})
-
-gulp.task('remove-proxy', function() {
-  return replace({
-    regex: "http://localhost:8100/api/v2",
-    replacement: "http://localhost:3000/api/v2",
-    paths: replaceFiles,
-    recursive: false,
-    silent: false,
-  });
-})

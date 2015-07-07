@@ -1,13 +1,17 @@
-<ion-view view-title="Login" name="login-view" ng-controller="LoginCtrl">
+<ion-view view-title="Login to your LinguaZone account">
   <ion-content class="padding">
+    <form name="loginForm" ng-submit="submitLoginInfo()" ng-controller="LoginFormCtrl">
       <div class="list list-inset">
           <label class="item item-input">
-              <input type="text" placeholder="Username" ng-model="loginData.email">
+              <input type="text" placeholder="Email address (or LinguaZone username)" ng-model="loginData.email">
           </label>
           <label class="item item-input">
               <input type="password" placeholder="Password" ng-model="loginData.password">
           </label>
       </div>
-      <button class="button button-block button-calm" ng-click="submitLoginInfo()">Login</button>
+      <alert type="danger" close ng-show="error">
+        {{error}}
+      </alert>
+      <button type="submit" class="button button-block button-calm">Login</button>
   </ion-content>
 </ion-view>
