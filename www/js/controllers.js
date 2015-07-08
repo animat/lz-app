@@ -3,9 +3,9 @@ angular.module('linguazone.controllers', [])
 .controller('ClassPageCtrl', function($scope, ClassPageItems, StudentInfo) {  
   $scope.$watch(
     function() { return StudentInfo.currentCourse; },
-    function(val) {
-      console.log("ClassPage $watch...",val);
-      $scope.getClassPageContents(val.registration.course_id);
+    function(newVal, oldVal) {
+      console.log("ClassPage $watch...",newVal," :: ",oldVal);
+      $scope.getClassPageContents(newVal.registration.course_id);
     }
   );
   $scope.getClassPageContents = function(courseId) {
@@ -33,8 +33,9 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('ViewPostCtrl', function($scope, $stateParams, ClassPageItems, Recorder) {
+.controller('ViewPostCtrl', function($scope, $stateParams, StudentInfo, ClassPageItems, Recorder) {
   var apId = $stateParams.apId;
+  $scope.user = StudentInfo.user;
   
   $scope.recordAudio = function() {
     Recorder.recordAudio({limit: 1, duration: 600}).then(function(result) {
@@ -44,9 +45,20 @@ angular.module('linguazone.controllers', [])
     });
   };
   
+  $scope.tmp = function() {
+    console.log($scope.user, "::", StudentInfo.user);
+  }
+  
+  $scope.commentByCurrentUser = function(comment) {
+    return comment.user_id == $scope.user.info.id;
+  }
+  
+  $scope.commentByTeacher = function(comment) {
+    return comment.user_id == $scope.post.user_id;
+  }
+  
   ClassPageItems.getPostInfo(apId).then(function(response) {
     $scope.post = angular.fromJson(response.post);
-    console.log("Is this post shared? ",$scope.post.shared);
     $scope.comments = angular.fromJson(response.comments);
   })
 })
@@ -65,7 +77,7 @@ angular.module('linguazone.controllers', [])
   
   $scope.currentCourse = StudentInfo.currentCourse;
   $scope.$watch(
-    function() { return StudentInfo.user; },
+    function() { return StudentInfo.user.info; },
     function (newVal, oldVal) {
       $scope.updateAccountInfo();
     }
@@ -102,7 +114,7 @@ angular.module('linguazone.controllers', [])
   $scope.submitLoginInfo = function() {
     $auth.submitLogin($scope.loginData)
       .then(function(resp) {
-        StudentInfo.user = resp.info;
+        StudentInfo.user.info = resp.info;
         $state.go('app.account');
       })
       .catch(function(resp) {

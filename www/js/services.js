@@ -57,19 +57,15 @@ angular.module('linguazone.services', [])
 
 .factory('StudentInfo', function($http, API) {
   var currentCourse = { registration: {} };
-  var user = {};
+  var user = { info: {} };
   var factory = this;
   return {
-    clear: function() {
-      currentCourse = { registration: {} };
-      user = {};
-    },
     getStudentInfo: function(sid) {
       return $http.get(API.url+"students/"+sid).then(function(response) {
         return response.data;
       })
     },
-    currentCourse: currentCourse,
-    user: user
+    user: user,
+    currentCourse: currentCourse
   }
 })
