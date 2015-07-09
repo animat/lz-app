@@ -1,6 +1,3 @@
-var MockServices = require("MockServices");
-var backend = null;
-
 describe('Audio blog posts', function() {
   var loginEmailField = element(by.model("loginData.email"));
   var loginPassField = element(by.model("loginData.password"));
@@ -22,8 +19,34 @@ describe('Audio blog posts', function() {
     }
   }
   
+  //var sampleData = require("./sample-data.json");
+  
   beforeEach(function() {
-    backend = new MockServices(browser);
+    /*
+    // TODO: Mocked data is not currently working.
+    browser.addMockModule('linguazone.MockServices', function(sampleData) {
+      angular.module('linguazone.MockServices', ['ngMockE2E'])
+      .run(function($httpBackend) {
+        $httpBackend.whenGET(new RegExp('templates\/.*')).passThrough();
+
+        $httpBackend.whenPOST("http://localhost:3000/api/v2/auth/sign_in").respond(function() {
+          //return [200, sampleData.signInResponse];
+          var request = new XMLHttpRequest();
+          request.open("GET", "./spec/sample-data.json", false);
+          request.send(null);
+          console.log("See me?! ",request);
+          return [request.status, request.response, {}];
+        })
+
+        $httpBackend.whenGET("http://localhost:3000/api/v2/courses/*").respond(function() {
+          return [200, sampleData.courseShowResponse];
+        });
+
+        $httpBackend.whenGET("http://localhost:3000/api/v2/students/*").respond(function() {
+          return [200, sampleData.studentShowResponse];
+        })
+      });
+    });*/
     browser.get('/#/app/login');
   });
   afterEach(function() {
@@ -38,7 +61,6 @@ describe('Audio blog posts', function() {
       expect(element(by.binding("post.title")).getText()).toEqual("Record yourself");
     });
   });
-  
   describe("test one", function() {
     it("should fill in the user's name", function() {
       login("s2@example.com", "tester");
