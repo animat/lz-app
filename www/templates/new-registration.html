@@ -1,0 +1,29 @@
+<ion-view view-title="Find a class page" ng-controller="RegistrationCtrl">
+  <ion-content>
+    
+    <div class="card">
+      <div class="item item-divider">Search for your school</div>
+      <input placeholder="Your school's name">
+    </div>
+    
+    <div class="card">
+      <div class="item item-divider">Or browse for your class</div>
+      <div class="item item-text-wrap">
+        <div>
+          <ion-list>
+            <ion-item ng-repeat="state in domestic" ui-sref="app.state-show({stateId: state.id})">
+              {{state.name}}
+            </ion-item>
+          </ion-list>
+        </div>
+        <div class="item-divider">International</div>
+        <ion-list>
+          <ion-item ng-repeat="country in intl">
+            {{country.name}}
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+    
+  </ion-content>
+</ion-view>

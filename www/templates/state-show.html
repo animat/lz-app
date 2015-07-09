@@ -1,0 +1,16 @@
+<ion-view view-title="Select your school" ng-controller="StateShowCtrl">
+  <ion-content>
+  
+    <div class="card">
+      <div class="item item-divider">All schools in {{state.name}}</div>
+      <div class="item item-text-wrap">
+        <ion-list>
+          <ion-item ng-repeat="school in schools" ui-sref="app.school-show({schoolId: school.id})">
+            {{school.name}} <small>in {{school.city}}</small>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+    
+  </ion-content>
+</ion-view>

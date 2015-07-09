@@ -1,0 +1,16 @@
+<ion-view view-title="Select your class" ng-controller="SchoolShowCtrl">
+  <ion-content>
+  
+    <div class="card">
+      <div class="item item-divider">All classes at {{school.name}}</div>
+      <div class="item item-text-wrap">
+        <ion-list>
+          <ion-item ng-repeat="course in courses" ng-click="addClassPage">
+            {{course.name}} <small>with {{course.user.display_name}}</small>
+          </ion-item>
+        </ion-list>
+      </div>
+    </div>
+    
+  </ion-content>
+</ion-view>

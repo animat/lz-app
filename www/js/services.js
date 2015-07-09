@@ -55,6 +55,31 @@ angular.module('linguazone.services', [])
   }
 })
 
+.factory('States', function($http, API) {
+  return {
+    getAll: function() {
+      return $http.get(API.url+"states").then(function(response) {
+        return response.data;
+      });
+    },
+    show: function(id) {
+      return $http.get(API.url+"states/"+id).then(function(response) {
+        return response.data;
+      });
+    }
+  }
+})
+
+.factory('Schools', function($http, API) {
+  return {
+    show: function(id) {
+      return $http.get(API.url+"schools/"+id).then(function(response) {
+        return response.data;
+      })
+    }
+  }
+})
+
 .factory('StudentInfo', function($http, API) {
   var currentCourse = { registration: {} };
   var user = { info: {} };

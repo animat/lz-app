@@ -108,6 +108,28 @@ angular.module('linguazone.controllers', [])
   }
 })
 
+.controller('StateShowCtrl', function($scope, $stateParams, States) {
+  States.show($stateParams.stateId).then(function(response) {
+    $scope.state = response.state;
+    $scope.schools = response.schools;
+  });
+})
+
+.controller('SchoolShowCtrl', function($scope, $stateParams, Schools) {
+  Schools.show($stateParams.schoolId).then(function(response) {
+    $scope.courses = response.courses;
+    $scope.school = response.school;
+  });
+})
+
+.controller('RegistrationCtrl', function($scope, States) {
+  States.getAll().then(function(response) {
+    $scope.domestic = response.domestic;
+    $scope.intl = response.intl;
+  });
+})
+
+
 .controller('LoginFormCtrl', function($scope, $auth, $state, StudentInfo) {
   $scope.loginData = {};
   

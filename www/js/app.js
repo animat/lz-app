@@ -148,6 +148,33 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
     }
   })
   
+  .state('app.new-registration', {
+    url: '/new-registration',
+    views: {
+      'app-account': {
+        templateUrl: 'templates/new-registration.html'
+      }
+    }
+  })
+  
+  .state('app.state-show', {
+    url: '/state/:stateId', 
+    views: {
+      'app-account': {
+        templateUrl: 'templates/state-show.html'
+      }
+    }
+  })
+  
+  .state('app.school-show', {
+    url: '/school/:schoolId',
+    views: {
+      'app-account': {
+        templateUrl: 'templates/school-show.html'
+      }
+    }
+  })
+  
   .state('app.login', {
     url: '/login',
     views: {
