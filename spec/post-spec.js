@@ -52,21 +52,22 @@ describe('Audio blog posts', function() {
   afterEach(function() {
     logout();
   });
-  
-  describe("test two", function() {
-    it('should view the first post', function() {
-      login("s1@example.com", "tester");
-      classPageBtn.click();
-      element(by.xpath("//ion-item[@ng-repeat='ap in available_posts']/a")).click();
-      expect(element(by.binding("post.title")).getText()).toEqual("Record yourself");
-    });
+  /*
+  it('should view the first post', function() {
+    login("s1@example.com", "tester");
+    classPageBtn.click();
+    element(by.xpath("//ion-item[@ng-repeat='ap in available_posts']/a")).click();
+    expect(element(by.binding("post.title")).getText()).toEqual("Record yourself");
   });
-  describe("test one", function() {
-    it("should fill in the user's name", function() {
-      login("s2@example.com", "tester");
-      classPageBtn.click();
-      element(by.xpath("//ion-item[@ng-repeat='ap in available_posts']/a")).click();
-      expect(element(by.binding("user.info.display_name")).getText()).toEqual("Your name: Peter Dissinger");
-    });
+  it("should fill in the user's name", function() {
+    login("s2@example.com", "tester");
+    classPageBtn.click();
+    element(by.xpath("//ion-item[@ng-repeat='ap in available_posts']/a")).click();
+    expect(element(by.binding("user.info.display_name")).getText()).toEqual("Your name: Peter Dissinger");
+  });
+  */
+  it("should be able to add a section if you are not logged in", function() {
+    browser.get("#/app/account");
+    element(by.id("searchForClassBtn")).click();
   });
 });
