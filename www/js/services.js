@@ -91,7 +91,6 @@ angular.module('linguazone.services', [])
         user.registrations = response.data.student_data.registrations;
         var lastReg = response.data.student_data.registrations[response.data.student_data.registrations.length-1];
         currentCourse = {id: lastReg.course_id};
-        console.log("StudentInfo.updateStudentInfo() :: user.registrations... ",user.registrations);
         return response.data;
       })
     },

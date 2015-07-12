@@ -76,15 +76,21 @@ angular.module('linguazone.controllers', [])
     console.log("sorting registration...",reg);
     return new Date(reg.created_at);
   }
+  
+  // TODO @help: Shouldn't these two lines...
   $scope.student = StudentInfo.user.info;
   $scope.registrations = StudentInfo.user.registrations;
-  $scope.currentCourse = StudentInfo.currentCourse;
-  
+  //  ...implicity do these two $watch() calls since my view has {{obj.value}} in them?
+  $scope.$watch(
+    function() { return StudentInfo.user.info; },
+    function(newVal, oldVal) {
+      $scope.student = StudentInfo.user.info;
+    }
+  )
   $scope.$watch(
     function() { return StudentInfo.user.registrations; },
     function(newVal, oldVal) {
       $scope.registrations = StudentInfo.user.registrations;
-      console.log("$watching StudentInfo: changed! ",StudentInfo.user.registrations," vs ",$scope.registrations);
     }
   )
   
