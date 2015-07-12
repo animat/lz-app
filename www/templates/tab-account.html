@@ -23,22 +23,35 @@
     
     <div class="card list">
       <div class="item item-divider">
-        Class registration
+        Classes
       </div>
+      
+      <div class="item item-content">
+        <button class="button button-clear button-positive" ui-sref="app.new-registration" id="searchForClassBtn">
+          <i class="icon ion-ios-search"></i> Search for a class page
+        </button>
+      </div>
+      
       <!-- TODO: Registrations should sort in order of when the registration was created. Currently not working. -->
-      <label class="item item-radio" ng-repeat="reg in registrations track by $index | orderBy : sortRegistration(reg) : true">
-        <input type="radio" ng-model="$parent.currentCourse.registration" ng-value="reg">
-        <i class="radio-icon ion-checkmark"></i>
+      <label class="item item-radio" 
+              ng-repeat="reg in registrations track by $index | orderBy : sortRegistration(reg) : true"
+              ng-click="visitClassPage(reg.course.id)">
         <div class="item-content">
           {{reg.course.name}}<br />
           taught by {{reg.course.user.display_name}}<br />
           at {{reg.course.user.school.name}}
         </div>
       </label>
-      <div>
-        <button class="button button-clear button-positive" ui-sref="app.new-registration" id="searchForClassBtn">
-          <i class="icon ion-ios-search"></i> Search for a class page
-        </button>
+      
+      <div ng-if="recentCourses.length > 0">
+        <div class="item item-divider">
+          Recently viewed classes
+        </div>
+        <div class="item item-content" ng-repeat="course in recentCourses track by $index"
+                                       ng-click="visitClassPage(course.id)">
+          {{course.name}}<br />
+          taught by {{course.user.display_name}}
+        </div>
       </div>
     </div>
   </ion-content>

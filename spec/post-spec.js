@@ -1,3 +1,7 @@
+var scrollIntoView = function (el) {
+  el.getWebElement().scrollIntoView();
+}
+
 describe('Audio blog posts', function() {
   var loginEmailField = element(by.model("loginData.email"));
   var loginPassField = element(by.model("loginData.password"));
@@ -67,7 +71,14 @@ describe('Audio blog posts', function() {
   });
   */
   it("should be able to add a section if you are not logged in", function() {
-    browser.get("#/app/account");
+    login("s1@example.com", "tester");
     element(by.id("searchForClassBtn")).click();
+    var paBtn = element(by.xpath("//a[contains(text(), 'Pennsylvania')]"));
+    protractor.getInstance().sleep(2000);
+    browser.executeScript(scrollIntoView, paBtn);
+    paBtn.click();
+    browser.pause();
+    element(by.xpath("//a[contains(text(), 'Central Middle School')]")).click();
+    element(by.xpath("//a[contains(text(), '8th Grade French')]")).click();
   });
 });

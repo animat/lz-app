@@ -80,15 +80,44 @@ angular.module('linguazone.services', [])
   }
 })
 
-.factory('StudentInfo', function($http, API) {
-  var currentCourse = { registration: {} };
-  var user = { info: {} };
+.factory('StudentInfo', function($http, $window, API) {
+  var currentCourse = { id: 0 };
+  var user = { info: {}, registrations: [] };
   var factory = this;
   return {
-    getStudentInfo: function(sid) {
+    updateStudentInfo: function(sid) {
       return $http.get(API.url+"students/"+sid).then(function(response) {
+        user.info = response.data.student_data.student;
+        user.registrations = response.data.student_data.registrations;
+        var lastReg = response.data.student_data.registrations[response.data.student_data.registrations.length-1];
+        currentCourse = {id: lastReg.course_id};
+        console.log("StudentInfo.updateStudentInfo() :: user.registrations... ",user.registrations);
         return response.data;
       })
+    },
+    createRegistration: function(cId) {
+      return $http.post(API.url+"course_registrations", {courseId: cId}).then(function(response) {
+        return response.data;
+      });
+    },
+    addRecentCourse: function(newCourse) {
+      var recentCoursesJson = angular.fromJson($window.localStorage["recent_courses"]);
+      if (recentCoursesJson) {
+        var courses = recentCoursesJson.courses;
+        for (var i = 0; i < courses.length; i++) {
+          if (courses[i].id == newCourse.id) {
+            courses.splice(i, 1);
+          }
+        }
+        courses.unshift(newCourse);
+        if (courses.length > 5) {
+          courses.pop();
+        }
+      } else {
+        recentCoursesJson = { courses: [newCourse] };
+      }
+      $window.localStorage["recent_courses"] = angular.toJson(recentCoursesJson);      
+      console.log("lets see if addRecentCourse has access to the variable: ",currentCourse);
     },
     user: user,
     currentCourse: currentCourse

@@ -22,6 +22,15 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
         config.headers.Authorization = angular.toJson($window.localStorage["auth_headers"]);
       }
       return config;
+    },
+    "response": function(response) {
+      var newToken = response.data.token;
+      if (newToken && $window.localStorage["auth_headers"]) {
+        var authJson = angular.fromJson($window.localStorage["auth_headers"]);
+        authJson.token = response.data.token;
+        $window.localStorage["auth_headers"] = angular.toJson(authJson);
+      }
+      return response;
     }
   }
 })
@@ -158,7 +167,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   })
   
   .state('app.state-show', {
-    url: '/state/:stateId', 
+    url: '/states/:stateId', 
     views: {
       'app-account': {
         templateUrl: 'templates/state-show.html'
@@ -167,7 +176,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   })
   
   .state('app.school-show', {
-    url: '/school/:schoolId',
+    url: '/schools/:schoolId',
     views: {
       'app-account': {
         templateUrl: 'templates/school-show.html'

@@ -4,8 +4,10 @@ angular.module('linguazone.controllers', [])
   $scope.$watch(
     function() { return StudentInfo.currentCourse; },
     function(newVal, oldVal) {
-      console.log("ClassPage $watch...",newVal," :: ",oldVal);
-      $scope.getClassPageContents(newVal.registration.course_id);
+      console.log("TRying to load a new class page...",newVal);
+      if (newVal.id > 0) {
+        $scope.getClassPageContents(newVal.id);
+      }
     }
   );
   $scope.getClassPageContents = function(courseId) {
@@ -39,9 +41,9 @@ angular.module('linguazone.controllers', [])
   
   $scope.recordAudio = function() {
     Recorder.recordAudio({limit: 1, duration: 600}).then(function(result) {
-      console.log(result);
+      console.log("ViewPostCtrl :: recordAudio() :: ",result);
     }, function(err) {
-      console.log(err);
+      console.log("ViewPostCtrl :: recordAudio() :: ",err);
     });
   };
   
@@ -69,38 +71,60 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('AccountCtrl', function($scope, $http, $auth, StudentInfo) {
+.controller('AccountCtrl', function($scope, $rootScope, $http, $auth, $window, $state, StudentInfo) {
   $scope.sortRegistration = function(reg) {
     console.log("sorting registration...",reg);
     return new Date(reg.created_at);
   }
-  
+  $scope.student = StudentInfo.user.info;
+  $scope.registrations = StudentInfo.user.registrations;
   $scope.currentCourse = StudentInfo.currentCourse;
-  $scope.$watch(
-    function() { return StudentInfo.user.info; },
-    function (newVal, oldVal) {
-      $scope.updateAccountInfo();
-    }
-  );
   
-  $scope.updateAccountInfo = function() {
-    if ($auth.user.uid) {
-      StudentInfo.getStudentInfo($auth.user.uid).then(function(response) {
-        $scope.student = angular.fromJson(response.student_data.student);
-        $scope.registrations = angular.fromJson(response.student_data.registrations);
-        $scope.currentCourse.registration = $scope.registrations[$scope.registrations.length-1];
-      })
-    } else {
-      $scope.student = {};
-      $scope.currentCourse.registration = {};
-      $scope.registrations = [];
+  $scope.$watch(
+    function() { return StudentInfo.user.registrations; },
+    function(newVal, oldVal) {
+      $scope.registrations = StudentInfo.user.registrations;
+      console.log("$watching StudentInfo: changed! ",StudentInfo.user.registrations," vs ",$scope.registrations);
     }
+  )
+  
+  $scope.$watch(
+    function() { return $window.localStorage["recent_courses"]; },
+    function(newVal, oldVal) {
+      $scope.updateRecentCourses();
+    }
+  )
+  
+  $scope.updateRecentCourses = function() {
+    if ($window.localStorage["recent_courses"]) {
+      $scope.recentCourses = angular.fromJson($window.localStorage["recent_courses"]).courses;
+    } else {
+      $scope.recentCourses = [];
+    };
+  };
+  $scope.updateRecentCourses();
+  
+  $scope.visitClassPage = function(courseId) {
+    StudentInfo.currentCourse = {id: courseId};
+    $state.go('app.classpage');
+  }
+  
+  $rootScope.$on('auth:login-success', function(ev, user) {
+    $scope.updateAccountInfo();
+  })
+  $scope.updateAccountInfo = function() {
+    StudentInfo.updateStudentInfo($auth.user.uid).then(function(resp){
+      console.log("Updated student info...",StudentInfo.user.registrations," vs. ",$scope.registrations);
+    });
   }
   
   $scope.handleSignOut = function() {
     $auth.signOut()
       .then(function(resp) {
         $scope.updateAccountInfo();
+        $scope.student = {};
+        $scope.currentCourse = { id: 0 };
+        $scope.registrations = [];
       })
       .catch(function(resp) {
         console.log("Could not log out!", resp);
@@ -115,11 +139,69 @@ angular.module('linguazone.controllers', [])
   });
 })
 
-.controller('SchoolShowCtrl', function($scope, $stateParams, Schools) {
+.controller('SchoolShowCtrl', function($scope, $state, $stateParams, $ionicPopup, $auth, Schools, StudentInfo) {
   Schools.show($stateParams.schoolId).then(function(response) {
     $scope.courses = response.courses;
     $scope.school = response.school;
   });
+  
+  $scope.showClassCodePopup = function(course, tryAgain) {
+    $scope.data = {};
+    var ref = this;
+    ref.course = course;
+    var classCodePopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.class_code" placeholder="Class code" autofocus />',
+      title: tryAgain ? "Please try again" : "Please enter the class code",
+      subTitle: tryAgain ? "The password you entered was incorrect" : "This page is password protected",
+      scope: $scope,
+      buttons: [
+        {text: 'Cancel'},
+        {
+          text: '<strong>Submit</strong>',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.class_code) {
+              e.preventDefault();
+            } else {
+              return $scope.data.class_code;
+            }
+          }
+        }
+      ]
+    });
+    classCodePopup.then(function(response) {
+      if (response) {
+        if (response == ref.course.code) {
+          StudentInfo.createRegistration(ref.course.id).then(function(response) {
+            StudentInfo.currentCourse = {id: response.course_registration.course_id};
+            StudentInfo.user.registrations.push(response.course_registration);
+            console.log("Just pushed the newest reg! ",StudentInfo.user);
+            $state.go('app.classpage');
+          });
+        } else {
+          $scope.showClassCodePopup(ref.course, true);
+        }
+      }
+    });
+  }
+  
+  $scope.addClassPage = function(course) {
+    console.log("addClassPage() :: $auth.user :: ",$auth.user);
+    if (course.login_required && $auth.user.signedIn) {
+      $scope.showClassCodePopup(course);
+    } else if (course.login_required) {
+      $ionicPopup.alert({
+        title: "Password protected",
+        template: "That class page is password protected. Please login to an account first."
+      }).then(function(resp) {
+        $state.go('app.account');
+      })
+    } else {
+      StudentInfo.addRecentCourse(course);
+      StudentInfo.currentCourse = {id: course.id};
+      $state.go('app.classpage');
+    }
+  }
 })
 
 .controller('RegistrationCtrl', function($scope, States) {
@@ -136,7 +218,6 @@ angular.module('linguazone.controllers', [])
   $scope.submitLoginInfo = function() {
     $auth.submitLogin($scope.loginData)
       .then(function(resp) {
-        StudentInfo.user.info = resp.info;
         $state.go('app.account');
       })
       .catch(function(resp) {
