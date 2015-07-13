@@ -5,6 +5,7 @@
     angular: true,
     console: true,
     cordova: true,
+    screen: true,
     K: true,
     StatusBar: true,
     window: true
@@ -33,12 +34,12 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
                 // org.apache.cordova.statusbar required
                 StatusBar.styleLightContent();
             }
+            //ivanixcu: set app to portrait mode
+            screen.lockOrientation('portrait');
         });
     })
     .config(function ($stateProvider, $urlRouterProvider) {
         console.log('config: stateprovider, urlRouterProvider');
-        window.g = window.g || {};
-        window.g.sp = $stateProvider;
 
 	  // Ionic uses AngularUI Router which uses the concept of states
 	  // Learn more here: https://github.com/angular-ui/ui-router
@@ -98,7 +99,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
 
             // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/app/classpage');
-        window.g.urp = $urlRouterProvider;
-        window.g.xthis = this;
+
+        
 
     });

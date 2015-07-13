@@ -79,3 +79,46 @@ Lgz.initMsgFrameNative = function () {
     }
 
 };
+//for debuging iframe focus issues
+var g = g || {};
+Lgz.parentDebug = function (w, wid) {
+    'use strict';
+    /*
+    w.document.addEventListener(
+        "onfocus",
+        function (event) {
+            console.error('window ' + wid + ':  focused');
+        },
+        false
+    );
+    w.document.addEventListener(
+        "onblur",
+        function (event) {
+            console.error('window ' + wid + ':  blurred');
+        },
+        false
+    );
+    */
+    w.onfocus = function () {
+        console.error('window ' + wid + ':  focused');
+    };
+    w.onblur = function () {
+        console.error('window ' + wid + ':  blurred');
+    };
+    w.document.addEventListener(
+        "touchstart",
+        function (event) {
+            console.error('window ' + wid + ':  touchstart');
+        },
+        false
+    );
+    w.document.addEventListener(
+        "touchend",
+        function (event) {
+            console.error('window ' + wid + ':  touchend');
+            w.focus();
+        },
+        false
+    );
+
+};
