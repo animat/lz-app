@@ -1,23 +1,15 @@
 angular.module('linguazone.controllers', [])
 
 .controller('ClassPageCtrl', function($scope, ClassPageItems, StudentInfo) {  
+  $scope.course = ClassPageItems.course;
+  
   $scope.$watch(
     function() { return StudentInfo.currentCourse; },
     function(newVal, oldVal) {
-      console.log("TRying to load a new class page...",newVal);
-      if (newVal.id > 0) {
-        $scope.getClassPageContents(newVal.id);
+      if ($scope.course.info.id != newVal.id && newVal.id != 0) {
+        ClassPageItems.updateAll(newVal.id);
       }
-    }
-  );
-  $scope.getClassPageContents = function(courseId) {
-    ClassPageItems.getAll(courseId).then(function(response) {
-      $scope.course = angular.fromJson(response.course);
-      $scope.available_games = angular.fromJson(response.games);
-      $scope.available_word_lists = angular.fromJson(response.word_lists);
-      $scope.available_posts = angular.fromJson(response.posts);
-    })
-  }
+    });
 })
 
 .controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems) {
@@ -77,22 +69,7 @@ angular.module('linguazone.controllers', [])
     return new Date(reg.created_at);
   }
   
-  // TODO @help: Shouldn't these two lines...
-  $scope.student = StudentInfo.user.info;
-  $scope.registrations = StudentInfo.user.registrations;
-  //  ...implicity do these two $watch() calls since my view has {{obj.value}} in them?
-  $scope.$watch(
-    function() { return StudentInfo.user.info; },
-    function(newVal, oldVal) {
-      $scope.student = StudentInfo.user.info;
-    }
-  )
-  $scope.$watch(
-    function() { return StudentInfo.user.registrations; },
-    function(newVal, oldVal) {
-      $scope.registrations = StudentInfo.user.registrations;
-    }
-  )
+  $scope.student = StudentInfo.user;
   
   $scope.$watch(
     function() { return $window.localStorage["recent_courses"]; },
@@ -100,7 +77,6 @@ angular.module('linguazone.controllers', [])
       $scope.updateRecentCourses();
     }
   )
-  
   $scope.updateRecentCourses = function() {
     if ($window.localStorage["recent_courses"]) {
       $scope.recentCourses = angular.fromJson($window.localStorage["recent_courses"]).courses;
@@ -116,18 +92,12 @@ angular.module('linguazone.controllers', [])
   }
   
   $rootScope.$on('auth:login-success', function(ev, user) {
-    $scope.updateAccountInfo();
-  })
-  $scope.updateAccountInfo = function() {
-    StudentInfo.updateStudentInfo($auth.user.uid).then(function(resp){
-      console.log("Updated student info...",StudentInfo.user.registrations," vs. ",$scope.registrations);
-    });
-  }
+    StudentInfo.updateStudentInfo($auth.user.uid);
+  });
   
   $scope.handleSignOut = function() {
     $auth.signOut()
       .then(function(resp) {
-        $scope.updateAccountInfo();
         $scope.student = {};
         $scope.currentCourse = { id: 0 };
         $scope.registrations = [];
@@ -181,7 +151,6 @@ angular.module('linguazone.controllers', [])
           StudentInfo.createRegistration(ref.course.id).then(function(response) {
             StudentInfo.currentCourse = {id: response.course_registration.course_id};
             StudentInfo.user.registrations.push(response.course_registration);
-            console.log("Just pushed the newest reg! ",StudentInfo.user);
             $state.go('app.classpage');
           });
         } else {
@@ -192,7 +161,6 @@ angular.module('linguazone.controllers', [])
   }
   
   $scope.addClassPage = function(course) {
-    console.log("addClassPage() :: $auth.user :: ",$auth.user);
     if (course.login_required && $auth.user.signedIn) {
       $scope.showClassCodePopup(course);
     } else if (course.login_required) {

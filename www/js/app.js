@@ -107,7 +107,6 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
 
   .state('app.classpage', {
     url: '/classpage',
-    cache: false,
     views: {
       'app-classpage': {
         templateUrl: 'templates/tab-classpage.html'

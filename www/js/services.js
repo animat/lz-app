@@ -21,27 +21,33 @@ angular.module('linguazone.services', [])
 }])
 
 .factory('ClassPageItems', function($http, API) {
+  var course = {info: {}, available_games: [], available_word_lists: [], available_posts: []};
   return {
-    getAll: function(courseId) {
+    updateAll: function(courseId) {
       return $http.get(API.url+"courses/"+courseId).then(function(response) {
-        return response.data;
+        course.info = response.data.course;
+        course.available_games = response.data.games;
+        course.available_word_lists = response.data.word_lists;
+        course.available_posts = response.data.posts;
+        return course;
       });
     },
     getGameInfo: function(agId) {
-      return $http.get(API.url+"games/"+agId).then(function(response) {
+      return $http.get(API.url+"available_games/"+agId).then(function(response) {
         return response.data;
       });
     },
     getWordListInfo: function(awlId) {
-      return $http.get(API.url+"word_lists/"+awlId).then(function(response) {
+      return $http.get(API.url+"available_word_lists/"+awlId).then(function(response) {
         return response.data;
       });
     },
     getPostInfo: function(apId) {
-      return $http.get(API.url+"posts/"+apId).then(function(response) {
+      return $http.get(API.url+"available_posts/"+apId).then(function(response) {
         return response.data;
       })
-    }
+    },
+    course: course
   }
 })
 
@@ -83,7 +89,6 @@ angular.module('linguazone.services', [])
 .factory('StudentInfo', function($http, $window, API) {
   var currentCourse = { id: 0 };
   var user = { info: {}, registrations: [] };
-  var factory = this;
   return {
     updateStudentInfo: function(sid) {
       return $http.get(API.url+"students/"+sid).then(function(response) {
@@ -116,7 +121,6 @@ angular.module('linguazone.services', [])
         recentCoursesJson = { courses: [newCourse] };
       }
       $window.localStorage["recent_courses"] = angular.toJson(recentCoursesJson);      
-      console.log("lets see if addRecentCourse has access to the variable: ",currentCourse);
     },
     user: user,
     currentCourse: currentCourse

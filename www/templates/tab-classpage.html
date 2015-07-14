@@ -1,9 +1,9 @@
-<ion-view view-title="{{course.name}} class page" ng-controller="ClassPageCtrl">
+<ion-view view-title="{{course.info.name}} class page" ng-controller="ClassPageCtrl">
   <ion-content class="padding">
     <div class="list card">
-      <div class="item item-divider">Games</div>
+      <div class="item item-divider" ng-click="tmp()">Games</div>
       <ion-list>
-        <ion-item ng-repeat="ag in available_games" type="item-text-wrap" ui-sref="app.play-game({agId: ag.id})">
+        <ion-item ng-repeat="ag in course.available_games" type="item-text-wrap" ui-sref="app.play-game({agId: ag.id})">
           <div>
             <h2>{{ag.game.activity.name}}</h2>
             <img ng-src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
