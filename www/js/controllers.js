@@ -186,17 +186,17 @@ angular.module('linguazone.controllers', [])
 })
 
 
-.controller('LoginFormCtrl', function($scope, $auth, $state, StudentInfo) {
+.controller('LoginFormCtrl', function($scope, $rootScope, $auth, $state, StudentInfo) {
   $scope.loginData = {};
   
   $scope.submitLoginInfo = function() {
-    $auth.submitLogin($scope.loginData)
-      .then(function(resp) {
+    $scope.loginData.role = "student";
+    $auth.submitLogin($scope.loginData).then(function(resp) {
         $state.go('app.account');
-      })
-      .catch(function(resp) {
-        $scope.loginData.password = "";
-        $scope.error = "Login failed: "+resp.errors[0];
-      });
+    });
+    $rootScope.$on('auth:login-error', function(ev, reason) {
+      $scope.error = "Login failed. "+reason.message;
+      $scope.loginData.password = "";
+    });
   }
 });
