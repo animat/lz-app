@@ -1,3 +1,12 @@
+/*global
+    $: true,
+    require: true,
+    process: true,
+    angular: true,
+    console: true,
+    Lgz: true
+ */
+/*jslint  nomen: true, sloppy: true */
 angular.module('linguazone.controllers', [])
 
 .controller('ClassPageCtrl', function($scope, ClassPageItems, StudentInfo) {  
@@ -13,7 +22,20 @@ angular.module('linguazone.controllers', [])
 })
 
 .controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems) {
+  console.log('PlayGameCtrl:');
+  console.log($stateParams);
   var agId = $stateParams.agId;
+  console.log('ClassPageItems:getGameInfo:before');
+
+  $scope.$on('$ionicView.loaded', function () {
+      console.log('PlayGameCtrl: $ionicView.loaded');
+  });
+
+  $scope.$on('$ionicView.enter', function () {
+      console.log('PlayGameCtrl: $ionicView.entered');
+      Lgz.initMsgFrameNative();
+  });
+  
   ClassPageItems.getGameInfo(agId).then(function(response) {
     $scope.ag = response;
   })

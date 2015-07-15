@@ -1,7 +1,22 @@
+/*global
+    $: true,
+    require: true,
+    process: true,
+    angular: true,
+    console: true,
+    cordova: true,
+    K: true,
+    StatusBar: true,
+    window: true
+ */
+/*jslint  nomen: true, sloppy: true */
+
 angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services', 'linguazone.directives', 'ng-token-auth'])
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+.run(function ($ionicPlatform) {
+  window.g = window.g || {};
+  window.g.ip = $ionicPlatform;
+  $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -89,22 +104,17 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
-
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
   $stateProvider
-
+  
   // setup an abstract state for the app directive
-    .state('app', {
-    url: "/app",
-    abstract: true,
-    templateUrl: "templates/app.html"
+  .state('app', {
+      url: "/app",
+      abstract: true,
+      templateUrl: "templates/app.html"
   })
-
-  // Each tab has its own nav history stack:
-
+  
+  // Each tab has its own history stack:
+    
   .state('app.classpage', {
     url: '/classpage',
     views: {
@@ -137,7 +147,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
-  
+
   .state('app.recent', {
     url: '/recent',
     views: {
@@ -146,7 +156,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
-  
+
   .state('app.account', {
     url: '/account',
     views: {
@@ -155,7 +165,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
-  
+
   .state('app.new-registration', {
     url: '/new-registration',
     views: {
@@ -164,7 +174,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
-  
+
   .state('app.state-show', {
     url: '/states/:stateId', 
     views: {
@@ -173,7 +183,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
-  
+
   .state('app.school-show', {
     url: '/schools/:schoolId',
     views: {
@@ -182,7 +192,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
-  
+
   .state('app.login', {
     url: '/login',
     views: {
@@ -194,5 +204,4 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/classpage');
-
 });
