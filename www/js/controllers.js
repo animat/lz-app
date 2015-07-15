@@ -38,6 +38,7 @@ angular.module('linguazone.controllers', [])
   
   ClassPageItems.getGameInfo(agId).then(function(response) {
     $scope.ag = response;
+    console.log(response);
   })
 })
 
