@@ -3,7 +3,7 @@
     <form name="loginForm" ng-submit="submitLoginInfo()" ng-controller="LoginFormCtrl">
       <div class="list list-inset">
           <label class="item item-input">
-              <input type="text" placeholder="Email address (or LinguaZone username)" ng-model="loginData.email">
+              <input type="email" placeholder="Email address (or LinguaZone username)" ng-model="loginData.email" novalidate focus-after-transition>
           </label>
           <label class="item item-input">
               <input type="password" placeholder="Password" ng-model="loginData.password">

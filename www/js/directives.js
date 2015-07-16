@@ -55,3 +55,13 @@ angular.module('linguazone.directives', [])
     }
   };
 })
+
+.directive('focusAfterTransition', function($timeout) {
+  return {
+    link: function(scope, element, attrs) {
+      $timeout(function() {
+        element[0].focus();
+      }, 750);
+    }
+  }
+})
