@@ -10,6 +10,7 @@
           {{student.info.display_name}}<br />
           <em>{{student.info.email}}</em>
         </div>
+        <br />
         <button class="button button-assertive" ng-click="handleSignOut()">
           Sign out of your account <i class="icon ion-log-out"></i>
         </button>
@@ -17,6 +18,11 @@
       <div class="item item-text-wrap" ng-show="!user.uid">
         <button class="button button-clear button-balanced" ui-sref="app.login">
           <i class="icon ion-log-in"></i> Sign in to your account
+        </button>
+      </div>
+      <div class="item item-text-wrap" ng-show="!user.uid">
+        <button class="button button-clear button-balanced" ui-sref="app.new-user">
+          <i class="icon ion-ios-plus-outline"></i> Create a LinguaZone.com account
         </button>
       </div>
     </div>

@@ -165,6 +165,15 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       }
     }
   })
+  
+  .state('app.new-user', {
+    url: '/new-user',
+    views: {
+      'app-account': {
+        templateUrl: 'templates/new-user.html'
+      }
+    }
+  })
 
   .state('app.new-registration', {
     url: '/new-registration',

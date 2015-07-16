@@ -9,9 +9,10 @@
               <input type="password" placeholder="Password" ng-model="loginData.password">
           </label>
       </div>
-      <alert type="danger" close ng-show="error">
+      <span class="formFeedbackError" ng-show="error">
         {{error}}
-      </alert>
+      </span>
       <button type="submit" class="button button-block button-calm">Login</button>
+    </form>
   </ion-content>
 </ion-view>

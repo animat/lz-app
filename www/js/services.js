@@ -102,7 +102,11 @@ angular.module('linguazone.services', [])
         user.info = response.data.student_data.student;
         user.registrations = response.data.student_data.registrations;
         var lastReg = response.data.student_data.registrations[response.data.student_data.registrations.length-1];
-        currentCourse = {id: lastReg.course_id};
+        if (lastReg) {
+          currentCourse = { id: lastReg.course_id };
+        } else {
+          currentCourse = { id: 0 };
+        }
         return response.data;
       })
     },
@@ -128,6 +132,17 @@ angular.module('linguazone.services', [])
         recentCoursesJson = { courses: [newCourse] };
       }
       $window.localStorage["recent_courses"] = angular.toJson(recentCoursesJson);      
+    },
+    validateUniqueEmail: function(email) {
+      return $http.post(K.baseUrl.api+"/students/validate_unique_email", {email: email}).then(function(response) {
+        console.log("services.js :: StudentInfo :: validateUniqueEmail :: response.data :: ",response.data);
+        return response.data;
+      })
+    },
+    createUser: function(newUser) {
+      return $http.post(K.baseUrl.api+"/students", newUser).then(function(response) {
+        return response.data;
+      })
     },
     user: user,
     currentCourse: currentCourse

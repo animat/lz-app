@@ -208,6 +208,31 @@ angular.module('linguazone.controllers', [])
   });
 })
 
+.controller('NewUserCtrl', function($scope, $state, $ionicPopup, $ionicHistory, $auth, StudentInfo) {
+  $scope.newUserData = {};
+  $scope.submitNewUserForm = function() {
+    $scope.newUserData.role = "student";
+    console.log("NewUserCtrl :: ",$scope.newUserData);
+    StudentInfo.createUser($scope.newUserData).then(function(response) {
+      console.log("NewUserCtrl :: request issued :: ",response);
+      var loginData = {};
+      loginData.email = $scope.newUserData.email;
+      loginData.password = $scope.newUserData.password;
+      loginData.role = "student";
+      $auth.submitLogin(loginData).then(function(response) {
+        console.log("NewUserCtrl :: success :: logged in and redirecting");
+        $ionicHistory.currentView($ionicHistory.backView());
+        $state.go('app.account', {location: 'replace'});
+      });
+    }).catch(function(response) {
+      console.log("NewUserCtrl :: request failed :: ",response);
+      $ionicPopup.alert({
+        title: "Problem creating account",
+        template: "There was an error creating your account. Please check for errors and try again."
+      })
+    });
+  }
+})
 
 .controller('LoginFormCtrl', function($scope, $rootScope, $auth, $state, StudentInfo) {
   $scope.loginData = {};

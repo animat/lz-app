@@ -1,4 +1,3 @@
-/* Empty. Add your own CSS if you like */
 .audio_comment {
   padding: 5px;
   margin: 10px 0px;
@@ -6,4 +5,13 @@
 }
 .audio_player {
   border: 1px solid black;
+}
+
+#accountInfo button {
+  display: block;
+}
+
+span.formFeedbackError {
+  border-top: 1px solid red;
+  color: red;
 }
