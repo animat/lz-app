@@ -11,7 +11,7 @@
       </div>
       <div class="list list-inset">
           <label class="item item-input">
-              <input type="text" name="email" placeholder="Email address (or create a LinguaZone username)" ng-model="newUserData.email" ng-model-options="{ debounce: 1000 }" novalidate required unique>
+              <input type="text" name="email" placeholder="Email address (or create a username)" ng-model="newUserData.email" ng-model-options="{ debounce: 1000 }" novalidate required unique>
           </label>
           <span ng-show="newUserForm.email.$pending.unique"><i class="icon ion-ios-loop"></i></span>
           <span ng-show="newUserForm.email.$error.unique" class="formFeedbackError">This email/username is already taken. Please enter another.</span>

@@ -62,8 +62,8 @@ angular.module('linguazone.controllers', [])
     });
   };
   
-  $scope.tmp = function() {
-    console.log($scope.user, "::", StudentInfo.user);
+  $scope.submitComment = function() {
+    console.log("Submitting comment by... ",$scope.user, "::", StudentInfo.user);
   }
   
   $scope.commentByCurrentUser = function(comment) {
@@ -86,11 +86,48 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('AccountCtrl', function($scope, $rootScope, $http, $auth, $window, $state, StudentInfo) {
+.controller('AccountCtrl', function($scope, $rootScope, $http, $auth, $window, $state, StudentInfo, Recorder) {
   $scope.sortRegistration = function(reg) {
     console.log("sorting registration...",reg);
     return new Date(reg.created_at);
   }
+  
+  $scope.recordAudio = function() {
+    Recorder.recordAudio({limit: 1, duration: 600}).then(function(result) {
+      console.log("ViewPostCtrl :: recordAudio() success :: ",result);
+      var blob = result;
+      console.log('lgzRec.addBlob: got blob');
+      var fd = [];
+      console.log('lgzRec.addBlob: new form');
+      fd.push(["file", blob, "blob.m4a"]);
+      console.log('lgzRec.addBlob: appended blob to new form');
+      var uploader = $("#uploadAudio").data('transloadit.uploader');
+      uploader._options.formData = fd;
+    }, function(err) {
+      console.log("ViewPostCtrl :: recordAudio() fail :: ",err);
+    });
+  };
+  $scope.tmp = function() {
+    console.log("clicked the tmp button...");
+    console.log(angular.element("#uploadAudio"));
+  }
+  angular.element("#uploadAudio").transloadit({
+      wait: true,
+      interval: 2500,
+      pollTimeout: 8000,
+      poll404Retries: 20,
+      autoSubmit: false,
+      onSuccess: function(assembly) {
+        console.log("Successfully uploaded! ",assembly);
+        $("#commentAudioId").val(assembly.assembly_id);
+        $("#uploadAudio").submit();
+        return false;
+      },
+      params: {
+        auth: { key: "79af1338b0364303b9caa569fc37641f" },
+        template_id: "3e01cb70b1a611e49853952f7f0c814f"
+      }
+    });
   
   $scope.student = StudentInfo.user;
   
