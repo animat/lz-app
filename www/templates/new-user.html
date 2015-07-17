@@ -1,0 +1,32 @@
+<ion-view view-title="Create a new LinguaZone account">
+  <ion-content class="padding">
+    <form name="newUserForm" ng-submit="submitNewUserForm()" ng-controller="NewUserCtrl">
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" placeholder="First name" ng-model="newUserData.firstName" required>
+          </label>
+          <label class="item item-input">
+              <input type="text" placeholder="Last name" ng-model="newUserData.lastName" required>
+          </label>
+      </div>
+      <div class="list list-inset">
+          <label class="item item-input">
+              <input type="text" name="email" placeholder="Email address (or create a LinguaZone username)" ng-model="newUserData.email" ng-model-options="{ debounce: 1000 }" novalidate required unique>
+          </label>
+          <span ng-show="newUserForm.email.$pending.unique"><i class="icon ion-ios-loop"></i></span>
+          <span ng-show="newUserForm.email.$error.unique" class="formFeedbackError">This email/username is already taken. Please enter another.</span>
+          <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="newUserData.password" required>
+          </label>
+          <label class="item item-input">
+              <input type="password" name="confirmPassword" placeholder="Confirm password" ng-model="newUserData.confirmPassword" required compare-to="newUserData.password" ng-model-options="{ debounce: 500 }">
+          </label>
+          <span ng-show="newUserForm.confirmPassword.$error.compareTo" class="formFeedbackError">The two passwords must match.</span>
+      </div>
+      <span class="formFeedbackError" ng-show="error">
+        {{error}}
+      </span>
+      <button type="submit" class="button button-block button-balanced">Create your account</button>
+    </form>
+  </ion-content>
+</ion-view>

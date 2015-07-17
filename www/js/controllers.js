@@ -1,3 +1,12 @@
+/*global
+    $: true,
+    require: true,
+    process: true,
+    angular: true,
+    console: true,
+    Lgz: true
+ */
+/*jslint  nomen: true, sloppy: true */
 angular.module('linguazone.controllers', [])
 
 .controller('ClassPageCtrl', function($scope, ClassPageItems, StudentInfo) {  
@@ -13,9 +22,23 @@ angular.module('linguazone.controllers', [])
 })
 
 .controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems) {
+  console.log('PlayGameCtrl:');
+  console.log($stateParams);
   var agId = $stateParams.agId;
+  console.log('ClassPageItems:getGameInfo:before');
+
+  $scope.$on('$ionicView.loaded', function () {
+      console.log('PlayGameCtrl: $ionicView.loaded');
+  });
+
+  $scope.$on('$ionicView.enter', function () {
+      console.log('PlayGameCtrl: $ionicView.entered');
+      Lgz.initMsgFrameNative();
+  });
+  
   ClassPageItems.getGameInfo(agId).then(function(response) {
     $scope.ag = response;
+    console.log(response);
   })
 })
 
@@ -185,8 +208,29 @@ angular.module('linguazone.controllers', [])
   });
 })
 
+.controller('NewUserCtrl', function($scope, $state, $ionicPopup, $ionicHistory, $auth, StudentInfo) {
+  $scope.newUserData = {};
+  $scope.submitNewUserForm = function() {
+    $scope.newUserData.role = "student";
+    StudentInfo.createUser($scope.newUserData).then(function(response) {
+      var loginData = {};
+      loginData.email = $scope.newUserData.email;
+      loginData.password = $scope.newUserData.password;
+      loginData.role = "student";
+      $auth.submitLogin(loginData).then(function(response) {
+        $ionicHistory.currentView($ionicHistory.backView());
+        $state.go('app.account', {location: 'replace'});
+      });
+    }).catch(function(response) {
+      $ionicPopup.alert({
+        title: "Problem creating account",
+        template: "There was an error creating your account. Please check for errors and try again."
+      })
+    });
+  }
+})
 
-.controller('LoginFormCtrl', function($scope, $rootScope, $auth, $state, StudentInfo) {
+.controller('LoginFormCtrl', function($scope, $rootScope, $timeout, $auth, $state, StudentInfo) {
   $scope.loginData = {};
   
   $scope.submitLoginInfo = function() {

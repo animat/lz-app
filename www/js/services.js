@@ -1,8 +1,15 @@
-angular.module('linguazone.services', [])
+/*global
+    $: true,
+    require: true,
+    process: true,
+    angular: true,
+    console: true,
+    K: true
 
-.constant('API', {
-  url: 'http://localhost:3000/api/v2/'
-})
+ */
+/*jslint  nomen: true, sloppy: true */
+
+angular.module('linguazone.services', [])
 
 .factory('Recorder', ['$q', function($q) {
   return {
@@ -20,11 +27,11 @@ angular.module('linguazone.services', [])
   }
 }])
 
-.factory('ClassPageItems', function($http, API) {
+.factory('ClassPageItems', function($http) {
   var course = {info: {}, available_games: [], available_word_lists: [], available_posts: []};
   return {
     updateAll: function(courseId) {
-      return $http.get(API.url+"courses/"+courseId).then(function(response) {
+      return $http.get(K.baseUrl.api+"/courses/"+courseId).then(function(response) {
         course.info = response.data.course;
         course.available_games = response.data.games;
         course.available_word_lists = response.data.word_lists;
@@ -33,17 +40,17 @@ angular.module('linguazone.services', [])
       });
     },
     getGameInfo: function(agId) {
-      return $http.get(API.url+"available_games/"+agId).then(function(response) {
+      return $http.get(K.baseUrl.api+"/available_games/"+agId).then(function(response) {
         return response.data;
       });
     },
     getWordListInfo: function(awlId) {
-      return $http.get(API.url+"available_word_lists/"+awlId).then(function(response) {
+      return $http.get(K.baseUrl.api+"/available_word_lists/"+awlId).then(function(response) {
         return response.data;
       });
     },
     getPostInfo: function(apId) {
-      return $http.get(API.url+"available_posts/"+apId).then(function(response) {
+      return $http.get(K.baseUrl.api+"/available_posts/"+apId).then(function(response) {
         return response.data;
       })
     },
@@ -61,46 +68,50 @@ angular.module('linguazone.services', [])
   }
 })
 
-.factory('States', function($http, API) {
+.factory('States', function($http) {
   return {
     getAll: function() {
-      return $http.get(API.url+"states").then(function(response) {
+      return $http.get(K.baseUrl.api+"/states").then(function(response) {
         return response.data;
       });
     },
     show: function(id) {
-      return $http.get(API.url+"states/"+id).then(function(response) {
+      return $http.get(K.baseUrl.api+"/states/"+id).then(function(response) {
         return response.data;
       });
     }
   }
 })
 
-.factory('Schools', function($http, API) {
+.factory('Schools', function($http) {
   return {
     show: function(id) {
-      return $http.get(API.url+"schools/"+id).then(function(response) {
+      return $http.get(K.baseUrl.api+"/schools/"+id).then(function(response) {
         return response.data;
       })
     }
   }
 })
 
-.factory('StudentInfo', function($http, $window, API) {
+.factory('StudentInfo', function($http, $window) {
   var currentCourse = { id: 0 };
   var user = { info: {}, registrations: [] };
   return {
     updateStudentInfo: function(sid) {
-      return $http.get(API.url+"students/"+sid).then(function(response) {
+      return $http.get(K.baseUrl.api+"/students/"+sid).then(function(response) {
         user.info = response.data.student_data.student;
         user.registrations = response.data.student_data.registrations;
         var lastReg = response.data.student_data.registrations[response.data.student_data.registrations.length-1];
-        currentCourse = {id: lastReg.course_id};
+        if (lastReg) {
+          currentCourse = { id: lastReg.course_id };
+        } else {
+          currentCourse = { id: 0 };
+        }
         return response.data;
       })
     },
     createRegistration: function(cId) {
-      return $http.post(API.url+"course_registrations", {courseId: cId}).then(function(response) {
+      return $http.post(K.baseUrl.api+"/course_registrations", {courseId: cId}).then(function(response) {
         return response.data;
       });
     },
@@ -121,6 +132,17 @@ angular.module('linguazone.services', [])
         recentCoursesJson = { courses: [newCourse] };
       }
       $window.localStorage["recent_courses"] = angular.toJson(recentCoursesJson);      
+    },
+    validateUniqueEmail: function(email) {
+      return $http.post(K.baseUrl.api+"/students/validate_unique_email", {email: email}).then(function(response) {
+        console.log("services.js :: StudentInfo :: validateUniqueEmail :: response.data :: ",response.data);
+        return response.data;
+      })
+    },
+    createUser: function(newUser) {
+      return $http.post(K.baseUrl.api+"/students", newUser).then(function(response) {
+        return response.data;
+      })
     },
     user: user,
     currentCourse: currentCourse
