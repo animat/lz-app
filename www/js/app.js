@@ -27,6 +27,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       var newToken = response.data.token;
       if (newToken && $window.localStorage["auth_headers"]) {
         var authJson = angular.fromJson($window.localStorage["auth_headers"]);
+        console.log("Response intercepted! Saving new token: ",response.data.token);
         authJson.token = response.data.token;
         $window.localStorage["auth_headers"] = angular.toJson(authJson);
       }

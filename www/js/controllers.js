@@ -59,7 +59,7 @@ angular.module('linguazone.controllers', [])
 
 .controller('RecentCtrl', function($scope, $http, RecentItems) {
   RecentItems.getAll().then(function(response) {
-    $scope.feed_items = response;
+    $scope.feed_items = response.feed_items;
   })
 })
 

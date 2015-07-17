@@ -51,10 +51,10 @@ angular.module('linguazone.services', [])
   }
 })
 
-.factory('RecentItems', function($http, API) {
+.factory('RecentItems', function($http, API, StudentInfo) {
   return {
     getAll: function() {
-      return $http.get(API.url+"feed_items/student/10052").then(function(response) {
+      return $http.get(API.url+"feed_items/student/"+StudentInfo.user.info.id).then(function(response) {
         return response.data;
       });
     }
