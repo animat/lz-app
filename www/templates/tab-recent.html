@@ -1,25 +1,36 @@
 <ion-view view-title="Your recent activity" ng-controller="RecentCtrl">
   <ion-content class="padding">
-    <div class="list card">
-      <div class="item item-body" ng-repeat="fi in feed_items">
-        <div ng-class="fi.sourceable_type" ng-switch on="fi.sourceable_type">
-          <div class="recent_game" ng-switch-when="HighScore">
-            <img ng-src="http://linguazone.s3.amazonaws.com/images/games/leapFrog/leapFrog.jpg">
-            <h2>Leap Frog</h2>
-            <p>Timestamp</p>
-            <p>Optional score</p>
-          </div>
-          <div class="recent_study" ng-switch-when="StudyHistory">
-            <img src="/img/study_word_list.png" />
-            <h2>{{item.action}}</h2>
-            <p>Timestamp</p>
-            <p>More data here</p>
-          </div>
-          <div class="recent_comment" ng-switch-when="Comment">
-            <img src="/img/speech_bubble.jpg" />
-            <h2>Post title...</h2>
-            <p>Comment goes here comment goes here</p>
-            <p>Timestamp</p>
+    
+    <div ng-if="!hasUser && !hasActivity">
+      Create an account then return to this tab to keep an eye on your recent activity on LinguaZone.
+    </div>
+    
+    <div ng-if="hasUser && !hasActivity">
+      Play games, study word lists, and record comments on audio blogs, then come back to this tab to see a record of your recent activity.
+    </div>
+    
+    <div ng-if="hasUser && hasActivity">
+      <div class="list card">
+        <div class="item item-body" ng-repeat="fi in feed_items">
+          <div ng-class="fi.sourceable_type" ng-switch on="fi.sourceable_type">
+            <div class="recent_game" ng-switch-when="HighScore">
+              <img ng-src="http://linguazone.s3.amazonaws.com/images/games/leapFrog/leapFrog.jpg">
+              <h2>Leap Frog</h2>
+              <p>Timestamp</p>
+              <p>Optional score</p>
+            </div>
+            <div class="recent_study" ng-switch-when="StudyHistory">
+              <img src="/img/study_word_list.png" />
+              <h2>{{item.action}}</h2>
+              <p>Timestamp</p>
+              <p>More data here</p>
+            </div>
+            <div class="recent_comment" ng-switch-when="Comment">
+              <img src="/img/speech_bubble.jpg" />
+              <h2>Post title...</h2>
+              <p>Comment goes here comment goes here</p>
+              <p>Timestamp</p>
+            </div>
           </div>
         </div>
       </div>

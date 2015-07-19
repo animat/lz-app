@@ -61,6 +61,9 @@ angular.module('linguazone.services', [])
         return response.data;
       })
     },
+    pageIsEmpty: function() {
+      return course.available_games.length == 0 && course.available_word_lists.length == 0 && course.available_posts.length == 0;
+    },
     course: course
   }
 })

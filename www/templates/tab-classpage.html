@@ -1,41 +1,53 @@
-<ion-view view-title="{{course.info.name}} class page" ng-controller="ClassPageCtrl">
+<ion-view view-title="{{title}}" ng-controller="ClassPageCtrl">
   <ion-content class="padding">
-    <div class="list card">
-      <div class="item item-divider" ng-click="tmp()">Games</div>
-      <ion-list>
-        <ion-item ng-repeat="ag in course.available_games" type="item-text-wrap" ui-sref="app.play-game({agId: ag.id})">
-          <div>
-            <h2>{{ag.game.activity.name}}</h2>
-            <img ng-src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
-            <p>{{ag.game.description}}</p>
-          </div>
-        </ion-item>
-      </ion-list>
+    
+    <div ng-if="!hasCourseSelected && !hasContent">
+      Welcome to LinguaZone! Let's get you started here.
+      Select a class page to get started.
     </div>
     
-    <div class="list card">
-      <div class="item item-divider">Word lists</div>
-      <ion-list>
-        <ion-item ng-repeat="awl in course.available_word_lists" type="item-text-wrap" ui-sref="app.review-word-list({awlId: awl.id})">
-          <div>
-            <h2>{{awl.word_list.description}}</h2>
-          </div>
-        </ion-item>
-      </ion-list>
+    <div ng-if="hasCourseSelected && !hasContent">
+      This class page does not have any content.
+      If you are a student in this class, let your teacher know you're ready to study with LinguaZone!
+    </div>
+    
+    <div ng-if="hasCourseSelected && hasContent">
+      <div class="list card">
+        <div class="item item-divider" ng-click="tmp()">Games</div>
+        <ion-list>
+          <ion-item ng-repeat="ag in course.available_games" type="item-text-wrap" ui-sref="app.play-game({agId: ag.id})">
+            <div>
+              <h2>{{ag.game.activity.name}}</h2>
+              <img ng-src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg" />
+              <p>{{ag.game.description}}</p>
+            </div>
+          </ion-item>
+        </ion-list>
       </div>
-    </div>
     
-    <div class="list card">
-      <div class="item item-divider">Audio blogs</div>
-      <ion-list>
-        <ion-item ng-repeat="ap in course.available_posts" type="item-text-wrap" ui-sref="app.view-post({apId: ap.id})">
-          <div>
-            <img src="" />
-            <h2>{{ap.post.title}}</h2>
-            <h2>{{ap.post.content}}</h2>
-          </div>
-        </ion-item>
-      </ion-list>
+      <div class="list card">
+        <div class="item item-divider">Word lists</div>
+        <ion-list>
+          <ion-item ng-repeat="awl in course.available_word_lists" type="item-text-wrap" ui-sref="app.review-word-list({awlId: awl.id})">
+            <div>
+              <h2>{{awl.word_list.description}}</h2>
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
+    
+      <div class="list card">
+        <div class="item item-divider">Audio blogs</div>
+        <ion-list>
+          <ion-item ng-repeat="ap in course.available_posts" type="item-text-wrap" ui-sref="app.view-post({apId: ap.id})">
+            <div>
+              <img src="" />
+              <h2>{{ap.post.title}}</h2>
+              <h2>{{ap.post.content}}</h2>
+            </div>
+          </ion-item>
+        </ion-list>
+      </div>
     </div>
   </ion-content>
 </ion-view>

@@ -11,12 +11,21 @@ angular.module('linguazone.controllers', [])
 
 .controller('ClassPageCtrl', function($scope, ClassPageItems, StudentInfo) {  
   $scope.course = ClassPageItems.course;
+  $scope.title = "Welcome to LinguaZone";
+  
+  $scope.updatePageState = function() {
+    $scope.hasCourseSelected = ClassPageItems.course.info.hasOwnProperty("name");
+    $scope.hasContent = !$scope.blank && !ClassPageItems.pageIsEmpty();
+    $scope.title = ClassPageItems.course.info.name+" class page" || "Welcome to LinguaZone";
+  }
   
   $scope.$watch(
     function() { return StudentInfo.currentCourse; },
     function(newVal, oldVal) {
       if ($scope.course.info.id != newVal.id && newVal.id != 0) {
-        ClassPageItems.updateAll(newVal.id);
+        ClassPageItems.updateAll(newVal.id).then(function(response) {
+          $scope.updatePageState();
+        });
       }
     });
 })
@@ -83,9 +92,13 @@ angular.module('linguazone.controllers', [])
 })
 
 .controller('RecentCtrl', function($scope, $http, RecentItems, StudentInfo) {
+  $scope.$on('$ionicView.enter', function () {
+    $scope.hasUser = StudentInfo.user.info.hasOwnProperty("id");
+  });
   if (StudentInfo.user.info.id) {
     RecentItems.getAll(StudentInfo.user.info.id).then(function(response) {
       $scope.feed_items = response.data.feed_items;
+      $scope.hasActivity = $scope.feed_items.length != 0;
     })
   }
 })
