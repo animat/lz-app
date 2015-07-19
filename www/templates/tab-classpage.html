@@ -16,7 +16,7 @@
     <div class="list card">
       <div class="item item-divider">Word lists</div>
       <ion-list>
-        <ion-item ng-repeat="awl in available_word_lists" type="item-text-wrap" ui-sref="app.review-word-list({awlId: awl.id})">
+        <ion-item ng-repeat="awl in course.available_word_lists" type="item-text-wrap" ui-sref="app.review-word-list({awlId: awl.id})">
           <div>
             <h2>{{awl.word_list.description}}</h2>
           </div>
@@ -28,7 +28,7 @@
     <div class="list card">
       <div class="item item-divider">Audio blogs</div>
       <ion-list>
-        <ion-item ng-repeat="ap in available_posts" type="item-text-wrap" ui-sref="app.view-post({apId: ap.id})">
+        <ion-item ng-repeat="ap in course.available_posts" type="item-text-wrap" ui-sref="app.view-post({apId: ap.id})">
           <div>
             <img src="" />
             <h2>{{ap.post.title}}</h2>

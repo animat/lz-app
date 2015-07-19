@@ -11,7 +11,7 @@
 
 angular.module('linguazone.services', [])
 
-.factory('Recorder', ['$q', function($q) {
+.factory('Recorder', ['$q', '$http', function($q, $http) {
   return {
     recordAudio: function(options) {
       var q = $q.defer();
@@ -23,6 +23,13 @@ angular.module('linguazone.services', [])
       }, options);
 
       return q.promise;
+    },
+    createComment: function(newComment) {
+      console.log("Issuing createComment() and passing along... ",newComment);
+      return $http.post(K.baseUrl.api+"/comments", newComment).then(function(response) {
+        console.log("Successfully saved comment! ",response);
+        return response;
+      });
     }
   }
 }])
@@ -45,12 +52,12 @@ angular.module('linguazone.services', [])
       });
     },
     getWordListInfo: function(awlId) {
-      return $http.get(K.baseUrl.api+"/available_word_lists/"+awlId).then(function(response) {
+      return $http.get(K.baseUrl.api+"/word_lists/"+awlId).then(function(response) {
         return response.data;
       });
     },
     getPostInfo: function(apId) {
-      return $http.get(K.baseUrl.api+"/available_posts/"+apId).then(function(response) {
+      return $http.get(K.baseUrl.api+"/posts/"+apId).then(function(response) {
         return response.data;
       })
     },
@@ -58,10 +65,10 @@ angular.module('linguazone.services', [])
   }
 })
 
-.factory('RecentItems', function($http, API, StudentInfo) {
+.factory('RecentItems', function($http, StudentInfo) {
   return {
-    getAll: function() {
-      return $http.get(API.url+"feed_items/student/"+StudentInfo.user.info.id).then(function(response) {
+    getAll: function(sId) {
+      return $http.get(K.baseUrl.api+"/feed_items/student/"+sId).then(function(response) {
         return response.data;
       });
     }

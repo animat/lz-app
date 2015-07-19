@@ -61,14 +61,15 @@
       </div>
     </div>
     <form id="uploadAudio" enctype="multipart/form-data">
-      <input type="text" id="commentAudioId" />
+      <input type="text" ng-model="newComment.audioId" id="commentAudioId" />
+      <input type="text" ng-model="newComment.content" />
+      <input type="file" id="audioFile" />
       <button ng-click="recordAudio()">
         Test me
       </button>
       <button ng-click="tmp()">
         Tmp
       </button>
-      <input type="submit" value="Submit form" />
     </form>
   </ion-content>
 </ion-view>
