@@ -1,12 +1,22 @@
 <ion-view view-title="Play a game!" ng-controller="PlayGameCtrl">
-    <h1>XXXX</h1>
-    <h1>Play {{ag.game.activity.name}}</h1>
-    <h3>GameId: {{ag.game_id}}</h3>
-    <h3>UserId: {{ag.user_id}}</h3>
-    <!--
-    <div style="width:200px; height: 200px; background-color: red; color: white;"/>
-    -->
-    <div style="">
-<iframe id="lgzFrame" src userid="{{ag.user_id}}" gameid="{{ag.game_id}}" gameswf="{{ag.game.activity.swf}}" height="425" width="600" frameBorder="0" allowfullscreen  webkitallowfullscreen mozallowfullscreen onload="console.log('iframe1')"></iframe>
+  <ion-content class="padding">
+    
+    <div ng-show="ag.game.activity.html5_compatible">    
+      <h1>Play {{ag.game.activity.name}}</h1>
+      <h3>GameId: {{ag.game_id}}</h3>
+      <h3>UserId: {{playerId}}</h3>
+      <!--
+      <div style="width:200px; height: 200px; background-color: red; color: white;"/>
+      -->
+      <div style="">
+        <iframe id="lgzFrame" src userid="{{playerId}}" gameid="{{ag.game_id}}" gameswf="{{ag.game.activity.swf}}" height="425" width="600" frameBorder="0" allowfullscreen  webkitallowfullscreen mozallowfullscreen onload="console.log('iframe1')"></iframe>
+      </div>
     </div>
+    
+    <div ng-show="!ag.game.activity.html5_compatible">
+      <h1>Designed for desktop</h1>
+      <img ng-src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg">
+      <h3>This game is not yet compatible with iOS. Try playing the game on a desktop or laptop for now.</h3>
+    </div>
+  </ion-content>
 </ion-view>

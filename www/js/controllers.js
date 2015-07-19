@@ -21,7 +21,7 @@ angular.module('linguazone.controllers', [])
     });
 })
 
-.controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems) {
+.controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems, StudentInfo) {
   console.log('PlayGameCtrl:');
   console.log($stateParams);
   var agId = $stateParams.agId;
@@ -33,11 +33,13 @@ angular.module('linguazone.controllers', [])
 
   $scope.$on('$ionicView.enter', function () {
       console.log('PlayGameCtrl: $ionicView.entered');
-      Lgz.initMsgFrameNative();
   });
+  
+  $scope.playerId = StudentInfo.user.info.id || 0;
   
   ClassPageItems.getGameInfo(agId).then(function(response) {
     $scope.ag = response;
+    Lgz.initMsgFrameNative();
     console.log(response);
   })
 })
