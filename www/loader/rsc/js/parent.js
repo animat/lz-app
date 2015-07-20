@@ -12,7 +12,7 @@
 
 var Lgz = Lgz || {};
 
-Lgz.newMsgFrame = function () {
+Lgz._initFrameParentEvents = function () {
     'use strict';
 
     var frameParent,
@@ -29,7 +29,7 @@ Lgz.newMsgFrame = function () {
 
     console.log('Lgz.newMsgFrame:');
 
-    frameParent = new LgzLib.MsgFrames.ParentNative();
+    frameParent = Lgz.frameParent;
     
     // note: here we put display orientation
     // back to normal after game exits
@@ -50,6 +50,8 @@ Lgz.newMsgFrame = function () {
     origTabClass = $tabBar.attr('class');
 
     $playContent  = $('#lgzPlayContent');
+    console.log('$playContent: ' + $playContent);
+
     origPlayContentClass = $playContent.attr('class');
 
     frameParent.eventViewFullScreen = function () {
@@ -74,7 +76,6 @@ Lgz.newMsgFrame = function () {
     };
 
 
-    Lgz.frameParent = frameParent;
 };
 Lgz.initMsgFrameNative = function () {
     'use strict';
@@ -82,9 +83,11 @@ Lgz.initMsgFrameNative = function () {
     $lgzFrame = $('#lgzFrame');
     if ($lgzFrame.length) {
         if (!Lgz.frameParent) {
-            Lgz.newMsgFrame();
+            Lgz.frameParent = new LgzLib.MsgFrames.ParentNative();
+            Lgz._initFrameParentEvents();
         } else {
             Lgz.frameParent.attachToDOM();
+            Lgz._initFrameParentEvents();
         }
         console.log('initMsgFrame: adding loader url');
         $lgzFrame.attr('src', 'loader/loader.html');
