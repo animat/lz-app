@@ -12,14 +12,24 @@
 
 var Lgz = Lgz || {};
 
-Lgz.newMsgFrame = function () {
+Lgz._initFrameParentEvents = function () {
     'use strict';
 
-    var frameParent, $navBar, $tabBar, $origTabClass, origNavClass, origTabClass;
+    var frameParent,
+
+        $navBar,
+        origNavClass,
+
+        $tabBar,
+        $origTabClass,
+        origTabClass,
+
+        $playContent,
+        origPlayContentClass;
 
     console.log('Lgz.newMsgFrame:');
 
-    frameParent = new LgzLib.MsgFrames.ParentNative();
+    frameParent = Lgz.frameParent;
     
     // note: here we put display orientation
     // back to normal after game exits
@@ -39,6 +49,10 @@ Lgz.newMsgFrame = function () {
     origNavClass = $navBar.attr('class');
     origTabClass = $tabBar.attr('class');
 
+    $playContent  = $('#lgzPlayContent');
+    console.log('$playContent: ' + $playContent);
+
+    origPlayContentClass = $playContent.attr('class');
 
     frameParent.eventViewFullScreen = function () {
         console.log('frameParent.eventViewFullScreen:');
@@ -46,6 +60,7 @@ Lgz.newMsgFrame = function () {
         frameParent._super.eventViewFullScreen.call(frameParent);
         $navBar.attr('class', 'hide');
         $tabBar.attr('class', 'hide');
+        $playContent.attr('class', '');
         
     };
     //
@@ -57,10 +72,10 @@ Lgz.newMsgFrame = function () {
         frameParent._super.eventViewNormal.call(frameParent);
         $navBar.attr('class', origNavClass);
         $tabBar.attr('class', origTabClass);
+        $playContent.attr('class', origPlayContentClass);
     };
 
 
-    Lgz.frameParent = frameParent;
 };
 Lgz.initMsgFrameNative = function () {
     'use strict';
@@ -68,14 +83,59 @@ Lgz.initMsgFrameNative = function () {
     $lgzFrame = $('#lgzFrame');
     if ($lgzFrame.length) {
         if (!Lgz.frameParent) {
-            Lgz.newMsgFrame();
+            Lgz.frameParent = new LgzLib.MsgFrames.ParentNative();
+            Lgz._initFrameParentEvents();
         } else {
             Lgz.frameParent.attachToDOM();
+            Lgz._initFrameParentEvents();
         }
         console.log('initMsgFrame: adding loader url');
         $lgzFrame.attr('src', 'loader/loader.html');
     } else {
         console.error('initMsgFrame: no lgzFrame found!');
     }
+
+};
+//for debuging iframe focus issues
+var g = g || {};
+Lgz.parentDebug = function (w, wid) {
+    'use strict';
+    /*
+    w.document.addEventListener(
+        "onfocus",
+        function (event) {
+            console.error('window ' + wid + ':  focused');
+        },
+        false
+    );
+    w.document.addEventListener(
+        "onblur",
+        function (event) {
+            console.error('window ' + wid + ':  blurred');
+        },
+        false
+    );
+    */
+    w.onfocus = function () {
+        console.error('window ' + wid + ':  focused');
+    };
+    w.onblur = function () {
+        console.error('window ' + wid + ':  blurred');
+    };
+    w.document.addEventListener(
+        "touchstart",
+        function (event) {
+            console.error('window ' + wid + ':  touchstart');
+        },
+        false
+    );
+    w.document.addEventListener(
+        "touchend",
+        function (event) {
+            console.error('window ' + wid + ':  touchend');
+            w.focus();
+        },
+        false
+    );
 
 };

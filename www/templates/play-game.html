@@ -1,15 +1,16 @@
 <ion-view view-title="Play a game!" ng-controller="PlayGameCtrl">
-  <ion-content class="padding">
+  <ion-content id="lgzPlayContent" class="padding">
     
     <div ng-show="ag.game.activity.html5_compatible">    
       <h1>Play {{ag.game.activity.name}}</h1>
       <h3>GameId: {{ag.game_id}}</h3>
       <h3>UserId: {{playerId}}</h3>
+      <h3>HTML5: {{ag.game.activity.html5_compatible}}</h1>
       <!--
-      <div style="width:200px; height: 200px; background-color: red; color: white;"/>
+        allowfullscreen  webkitallowfullscreen mozallowfullscreen onload="console.log('iframe1')"
       -->
       <div style="">
-        <iframe id="lgzFrame" src userid="{{playerId}}" gameid="{{ag.game_id}}" gameswf="{{ag.game.activity.swf}}" height="425" width="600" frameBorder="0" allowfullscreen  webkitallowfullscreen mozallowfullscreen onload="console.log('iframe1')"></iframe>
+        <iframe id="lgzFrame" src userid="{{playerId}}" gameid="{{ag.game_id}}" gameswf="{{ag.game.activity.swf}}" height="425" width="600" frameBorder="0" ></iframe>
       </div>
     </div>
     
