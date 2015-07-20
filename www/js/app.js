@@ -5,6 +5,7 @@
     angular: true,
     console: true,
     cordova: true,
+    screen: true,
     K: true,
     StatusBar: true,
     window: true
@@ -14,8 +15,6 @@
 angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services', 'linguazone.directives', 'ng-token-auth'])
 
 .run(function ($ionicPlatform) {
-  window.g = window.g || {};
-  window.g.ip = $ionicPlatform;
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -26,6 +25,8 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+    //ivanixcu: set app to portrait mode
+    screen.lockOrientation('portrait');
   });
 })
 

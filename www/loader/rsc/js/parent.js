@@ -15,7 +15,17 @@ var Lgz = Lgz || {};
 Lgz.newMsgFrame = function () {
     'use strict';
 
-    var frameParent, $navBar, $tabBar, $origTabClass, origNavClass, origTabClass;
+    var frameParent,
+
+        $navBar,
+        origNavClass,
+
+        $tabBar,
+        $origTabClass,
+        origTabClass,
+
+        $playContent,
+        origPlayContentClass;
 
     console.log('Lgz.newMsgFrame:');
 
@@ -39,6 +49,8 @@ Lgz.newMsgFrame = function () {
     origNavClass = $navBar.attr('class');
     origTabClass = $tabBar.attr('class');
 
+    $playContent  = $('#lgzPlayContent');
+    origPlayContentClass = $playContent.attr('class');
 
     frameParent.eventViewFullScreen = function () {
         console.log('frameParent.eventViewFullScreen:');
@@ -46,6 +58,7 @@ Lgz.newMsgFrame = function () {
         frameParent._super.eventViewFullScreen.call(frameParent);
         $navBar.attr('class', 'hide');
         $tabBar.attr('class', 'hide');
+        $playContent.attr('class', '');
         
     };
     //
@@ -57,6 +70,7 @@ Lgz.newMsgFrame = function () {
         frameParent._super.eventViewNormal.call(frameParent);
         $navBar.attr('class', origNavClass);
         $tabBar.attr('class', origTabClass);
+        $playContent.attr('class', origPlayContentClass);
     };
 
 
@@ -77,5 +91,48 @@ Lgz.initMsgFrameNative = function () {
     } else {
         console.error('initMsgFrame: no lgzFrame found!');
     }
+
+};
+//for debuging iframe focus issues
+var g = g || {};
+Lgz.parentDebug = function (w, wid) {
+    'use strict';
+    /*
+    w.document.addEventListener(
+        "onfocus",
+        function (event) {
+            console.error('window ' + wid + ':  focused');
+        },
+        false
+    );
+    w.document.addEventListener(
+        "onblur",
+        function (event) {
+            console.error('window ' + wid + ':  blurred');
+        },
+        false
+    );
+    */
+    w.onfocus = function () {
+        console.error('window ' + wid + ':  focused');
+    };
+    w.onblur = function () {
+        console.error('window ' + wid + ':  blurred');
+    };
+    w.document.addEventListener(
+        "touchstart",
+        function (event) {
+            console.error('window ' + wid + ':  touchstart');
+        },
+        false
+    );
+    w.document.addEventListener(
+        "touchend",
+        function (event) {
+            console.error('window ' + wid + ':  touchend');
+            w.focus();
+        },
+        false
+    );
 
 };
