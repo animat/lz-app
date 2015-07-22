@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.animat.linguazone" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>lgz-app</name>
+  <name>LinguaZone</name>
   <description>
         A mobile companion for students who use LinguaZone in their world language classes.
     </description>
