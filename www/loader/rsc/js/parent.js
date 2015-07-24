@@ -12,7 +12,7 @@
 
 var Lgz = Lgz || {};
 
-Lgz._initFrameParentEvents = function () {
+Lgz._initFrameParentEvents = function ($lgzFrame, $scope, $ionicPopup) {
     'use strict';
 
     var frameParent,
@@ -30,7 +30,7 @@ Lgz._initFrameParentEvents = function () {
     console.log('Lgz.newMsgFrame:');
 
     frameParent = Lgz.frameParent;
-    
+
     // note: here we put display orientation
     // back to normal after game exits
     // - assuming display should return to locked portrait mode.
@@ -75,20 +75,30 @@ Lgz._initFrameParentEvents = function () {
         $playContent.attr('class', origPlayContentClass);
     };
 
+    frameParent.eventAlertError = function (msg) {
+        $ionicPopup.alert({
+            title: "Error",
+            template: msg
+        }).then(function () {
+            frameParent.eventViewNormal();
+            frameParent.eventOrientNormal();
+            $lgzFrame.attr('src', 'loader/error.html');
+        });
+    };
 
 };
-Lgz.initMsgFrameNative = function () {
+Lgz.initMsgFrameNative = function ($scope, $ionicPopup) {
     'use strict';
     var $lgzFrame;
     $lgzFrame = $('#lgzFrame');
     if ($lgzFrame.length) {
         if (!Lgz.frameParent) {
             Lgz.frameParent = new LgzLib.MsgFrames.ParentNative();
-            Lgz._initFrameParentEvents();
         } else {
             Lgz.frameParent.attachToDOM();
-            Lgz._initFrameParentEvents();
         }
+        Lgz._initFrameParentEvents($lgzFrame, $scope, $ionicPopup);
+
         console.log('initMsgFrame: adding loader url');
         $lgzFrame.attr('src', 'loader/loader.html');
     } else {
