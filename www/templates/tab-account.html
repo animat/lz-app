@@ -64,6 +64,7 @@
     <form id="uploadAudio" enctype="multipart/form-data">
       <input type="text" ng-model="newComment.audioId" id="commentAudioId" />
       <input type="text" ng-model="newComment.content" />
+      <input type="hidden" name="params" value="{{transloaditParams}}">
       <input type="file" id="audioFile" />
       <button ng-click="recordAudio()">
         Test me

@@ -15,10 +15,12 @@ angular.module('linguazone.services', [])
   return {
     recordAudio: function(options) {
       var q = $q.defer();
-
+      console.log("Recorder :: recordAudio() :: beginning device capture");
       navigator.device.capture.captureAudio(function(result) {
+        console.log("Success!", result);
         q.resolve(result);
       }, function(err) {
+        console.log("Error recording.",err);
         q.reject(err);
       }, options);
 

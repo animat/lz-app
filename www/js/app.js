@@ -126,6 +126,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   })
   .state('app.play-game', {
     url: '/play-game/:agId',
+    cache: false,
     views: {
       'app-classpage': {
         templateUrl: 'templates/play-game.html'
@@ -134,6 +135,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   })
   .state('app.review-word-list', {
     url: '/review-word-list/:awlId',
+    cache: false,
     views: {
       'app-classpage': {
         templateUrl: 'templates/review-word-list.html'
@@ -142,6 +144,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
   })
   .state('app.view-post', {
     url: '/view-post/:apId',
+    cache: false,
     views: {
       'app-classpage': {
         templateUrl: 'templates/view-post.html'
