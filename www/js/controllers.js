@@ -8,7 +8,6 @@
  */
 /*jslint  nomen: true, sloppy: true */
 angular.module('linguazone.controllers', [])
-
 .controller('ClassPageCtrl', function($scope, ClassPageItems, StudentInfo) {  
   $scope.course = ClassPageItems.course;
   $scope.title = "Welcome to LinguaZone";
@@ -17,7 +16,7 @@ angular.module('linguazone.controllers', [])
     $scope.hasCourseSelected = ClassPageItems.course.info.hasOwnProperty("name");
     $scope.hasContent = !$scope.blank && !ClassPageItems.pageIsEmpty();
     $scope.title = ClassPageItems.course.info.name+" class page" || "Welcome to LinguaZone";
-  }
+  };
   
   $scope.$watch(
     function() { return StudentInfo.currentCourse; },
@@ -30,7 +29,7 @@ angular.module('linguazone.controllers', [])
     });
 })
 
-.controller('PlayGameCtrl', function($scope, $stateParams, ClassPageItems, StudentInfo) {
+.controller('PlayGameCtrl', function($scope, $stateParams, $ionicPopup, ClassPageItems, StudentInfo) {
   console.log('PlayGameCtrl:');
   console.log($stateParams);
   var agId = $stateParams.agId;
@@ -48,7 +47,7 @@ angular.module('linguazone.controllers', [])
   
   ClassPageItems.getGameInfo(agId).then(function(response) {
     $scope.ag = response;
-    Lgz.initMsgFrameNative();
+    Lgz.initMsgFrameNative($scope, $ionicPopup);
     console.log(response);
   })
 })
