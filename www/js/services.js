@@ -26,6 +26,28 @@ angular.module('linguazone.services', [])
 
       return q.promise;
     },
+    getAudioBlob: function(filePath) {
+      var thisObj = this;
+      var q = $q.defer();
+      console.log("Recorder :: getAudioBlob()");
+      
+      var successCallback = function(fileEntry) {
+        fileEntry.file(function(file) {
+          var reader = new FileReader();
+          reader.onloadend = function(evt) {
+            var blob = new Blob(new Uint8Array(evt.target.result), {type: 'audio/wav'});
+            q.resolve(blob);
+          }
+          reader.readAsArrayBuffer(file);
+        })
+      }
+      var errorCallback = function(error) {
+        q.reject(error);
+        return false;
+      }
+      window.resolveLocalFileSystemURL(filePath, successCallback, errorCallback);
+      return q.promise;
+    },
     createComment: function(newComment) {
       console.log("Issuing createComment() and passing along... ",newComment);
       return $http.post(K.baseUrl.api+"/comments", newComment).then(function(response) {

@@ -104,7 +104,7 @@ angular.module('linguazone.controllers', [])
 
 .controller('AccountCtrl', function($scope, $rootScope, $http, $auth, $window, $state, $ionicPopup, StudentInfo, Recorder) {
   
-  $scope.recordingSuccess = null;
+  $scope.recordingPath = null;
   
   $scope.transloaditParams = angular.fromJson({
     auth: { key: "79af1338b0364303b9caa569fc37641f" },
@@ -126,8 +126,8 @@ angular.module('linguazone.controllers', [])
   $scope.recordAudio = function() {
     console.log("Calling recordAudio() ",Recorder);
     Recorder.recordAudio({limit: 1, duration: 600}).then(function(result) {
-      $scope.recordingSuccess = result;
-      console.log("Recording completed: ",result);
+      $scope.recordingPath = cordova.file.tempDirectory + result[0].name;
+      console.log("Recording completed: ",result," :: path: ",$scope.recordingPath);
     }, function(err) {
       console.log("ViewPostCtrl :: recordAudio() fail :: ",err);
     });
@@ -141,6 +141,24 @@ angular.module('linguazone.controllers', [])
       pollTimeout: 8000,
       poll404Retries: 20,
       autoSubmit: false,
+      /*processZeroFiles: false,*/
+      beforeStart: function() {
+        console.log('About to submit to Transloadit. RecordingSuccess:',$scope.recordingPath);
+        Recorder.getAudioBlob($scope.recordingPath).then(function(result) {
+          console.log("Got the audio blob! Success!",result);
+          fd = [];
+          fd.push(["file", result, "blob.wav"]);
+          
+          // TODO: Question @Cesar -- how to attach the blob asynchronously and then return true for beforeStart()?
+          uploader = $form.data('transloadit.uploader');
+          uploader._options.formData = fd;
+          console.log('lgzRec.addBlob: appended blob to new form');
+          return true;
+        }), function(error) {
+          console.log("Transloadit - beforestart -- failed!",error);
+          return false;
+        }
+      },
       onSuccess: function(assembly) {
         console.log("Successfully uploaded! ",assembly);
         $scope.newComment.audioId = assembly.assembly_id;
