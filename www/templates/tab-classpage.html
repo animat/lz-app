@@ -2,13 +2,19 @@
   <ion-content class="padding">
     
     <div ng-if="!hasCourseSelected && !hasContent">
-      Welcome to LinguaZone! Let's get you started here.
-      Select a class page to get started.
+      <div id="welcomeMessage" class="blankStateMessage">
+        <img src="img/frog.png" />
+        <p>Find your class page from the <a href="#" ui-sref="app.account">Account</a> tab to get started.</p>
+      </div>
     </div>
     
     <div ng-if="hasCourseSelected && !hasContent">
-      This class page does not have any content.
-      If you are a student in this class, let your teacher know you're ready to study with LinguaZone!
+      <div class="blankStateMessage">
+        <p>
+          This class page does not have any content.<br />
+          If you are a student in this class, let your teacher know you're ready to study with LinguaZone!
+        </p>
+      </div>
     </div>
     
     <div ng-if="hasCourseSelected && hasContent">
