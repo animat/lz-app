@@ -1,11 +1,13 @@
 <ion-view view-title="Study a word list" ng-controller="ReviewWordListCtrl">
   <ion-content>
-    <h1>{{list.description}}</h1>
-    <table>
-      <tr ng-repeat="node in nodes">
-        <td>{{node.question._content}}</td>
-        <td>{{node.response._content}}</td>
-      </tr>
-    </table>
+    <div id="reviewWordList">
+      <h1>{{list.description}}</h1>
+      <table>
+        <tr ng-repeat="node in nodes">
+          <td>{{node.question._content}}</td>
+          <td>{{node.response._content}}</td>
+        </tr>
+      </table>
+    </div>
   </ion-content>
 </ion-view>
