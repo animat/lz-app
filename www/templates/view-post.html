@@ -1,27 +1,35 @@
 <ion-view view-title="Audio blog post" ng-controller="ViewPostCtrl">
-  <ion-content>
+  <ion-content class="padding">
     <h1 id="audioBlogPostTitle">{{post.title}}</h1>
     <div>
       <h2>{{post.content}}</h2>
       <lgz-audio-player audio-id="post.audio_id" ng-if="post.audio_id > 0"></lgz-audio-player>
     </div>
-    <ol ng-if="comments.length > 0">
+    <ion-list ng-if="comments.length > 0">
       <!-- TODO: Only show comments if the post is shared OR if the post is by the current user OR the teacher -->
-      <li ng-repeat="comment in comments track by $index" 
+      <ion-item class="card" ng-repeat="comment in comments track by $index" 
           ng-if="post.shared || commentByCurrentUser(comment) || commentByTeacher(comment)">
-        <div class="audio_comment">
-          <lgz-audio-player audio-id="comment.audio_id" ng-if="comment.audio_id > 0"></lgz-audio-player>
-          <div>
-            <blockquote>{{comment.content}} -<cite>{{comment.user.display_name}}</cite></blockquote>
-          </div>
-          <div ng-if="commentByCurrentUser(comment)">
-            <p ng-if="comment.teacher_note"><em>{{comment.teacher_note}}</em></p>
-            <div ng-if="comment.rating > 0">
-              {{comment.rating}} stars
+        <div class="audio_comment item">
+          <div class="row">
+            <div class="col" ng-if="comment.audio_id > 0">
+              <lgz-audio-player audio-id="comment.audio_id" ng-if="comment.audio_id > 0"></lgz-audio-player>
+            </div>
+            <div class="col" ng-if="comment.content">
+              {{comment.content}}
             </div>
           </div>
-      </li>
-    </ol>
+        </div>
+        <div class="item" ng-if="commentByCurrentUser(comment)">
+          <p ng-if="comment.teacher_note"><em>{{comment.teacher_note}}</em></p>
+          <div ng-if="comment.rating > 0">
+            {{comment.rating}} stars
+          </div>
+        </div>
+        <div class="item-divider">
+          -{{comment.user.display_name}}
+        </div>
+      </ion-item>
+    </ion-list>
     
     <form style="max-width: 500px">
       <p>Leave a comment</p>

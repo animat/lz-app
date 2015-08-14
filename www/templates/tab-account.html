@@ -1,5 +1,5 @@
 <ion-view view-title="Account" ng-controller="AccountCtrl">
-  <ion-content>
+  <ion-content class="padding">
     
     <div class="card" id="accountInfo">
       <div class="item item-divider">
@@ -65,13 +65,12 @@
       <input type="text" ng-model="newComment.audioId" id="commentAudioId" />
       <input type="text" ng-model="newComment.content" />
       <input type="hidden" name="params" value="{{transloaditParams}}">
-      <input type="file" id="audioFile" />
-      <button ng-click="recordAudio()">
-        Test me
-      </button>
-      <button ng-click="tmp()">
-        Tmp
-      </button>
     </form>
+    <button ng-click="uploadAudio()">
+      Upload to Transloadit
+    </button>
+    <button ng-click="recordAudio()">
+      Record audio
+    </button>
   </ion-content>
 </ion-view>

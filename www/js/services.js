@@ -29,13 +29,12 @@ angular.module('linguazone.services', [])
     getAudioBlob: function(filePath) {
       var thisObj = this;
       var q = $q.defer();
-      console.log("Recorder :: getAudioBlob()");
       
       var successCallback = function(fileEntry) {
         fileEntry.file(function(file) {
           var reader = new FileReader();
           reader.onloadend = function(evt) {
-            var blob = new Blob(new Uint8Array(evt.target.result), {type: 'audio/wav'});
+            var blob = new Blob([evt.target.result]);
             q.resolve(blob);
           }
           reader.readAsArrayBuffer(file);
