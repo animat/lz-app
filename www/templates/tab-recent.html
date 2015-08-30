@@ -19,22 +19,28 @@
         <div class="item item-body" ng-repeat="fi in feed_items">
           <div ng-class="fi.sourceable_type" ng-switch on="fi.sourceable_type">
             <div class="recent_game" ng-switch-when="HighScore">
-              <img ng-src="http://linguazone.s3.amazonaws.com/images/games/leapFrog/leapFrog.jpg">
-              <h2>Leap Frog</h2>
-              <p>Timestamp</p>
-              <p>Optional score</p>
+              <img ng-src="http://linguazone.s3.amazonaws.com/images/games/{{fi.activity.swf}}/{{fi.activity.swf}}.jpg">
+              <h2>{{fi.activity.name}}</h2>
+              <p>{{fi.score}} {{fi.activity.name}}</p>
+              <p class="timestamp">{{fi.high_score.submitted_at | date:"MMM d, yyyy 'at' h:mm a"}}</p>
             </div>
             <div class="recent_study" ng-switch-when="StudyHistory">
               <img src="/img/study_word_list.png" />
-              <h2>{{item.action}}</h2>
-              <p>Timestamp</p>
-              <p>More data here</p>
+              <h2>{{fi.word_list.description}}</h2>
+              <div ng-switch on="fi.study_history.study_type">
+                <p ng-switch-when="print">Printed a word list</p>
+                <p ng-switch-when="browse">Browsed a word list</p>
+                <p ng-switch-when="practice">Practiced a word list</p>
+                <p ng-switch-when="catch">Caught a word list</p>
+              </div>
+              <p class="timestamp">{{fi.study_history.submitted_at | date:"MMM d, yyyy 'at' h:mm a"}}</p>
             </div>
             <div class="recent_comment" ng-switch-when="Comment">
               <img src="/img/speech_bubble.jpg" />
-              <h2>Post title...</h2>
-              <p>Comment goes here comment goes here</p>
-              <p>Timestamp</p>
+              <h2>{{fi.post.title}}</h2>
+              <p ng-if="fi.comment.audio_id">Recorded a comment</p>
+              <p ng-if="fi.comment.content"><em>{{fi.comment.content}}</em></p>
+              <p class="timestamp">{{fi.comment.created_at | date:"MMM d, yyyy 'at' h:mm a"}}</p>
             </div>
           </div>
         </div>
