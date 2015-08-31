@@ -60,20 +60,74 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('ViewPostCtrl', function($scope, $stateParams, StudentInfo, ClassPageItems, Recorder) {
+.controller('ViewPostCtrl', function($scope, $state, $stateParams, StudentInfo, ClassPageItems, Recorder) {
   var apId = $stateParams.apId;
   $scope.user = StudentInfo.user;
   
+  // Init audio recorder variables
+  $scope.recordingPath = null;
+  $scope.newComment = {};
+  $scope.newComment.userId = StudentInfo.user.info.id;
+  $scope.newComment.availablePostId = $stateParams.apId;
+  $scope.newComment.audioId = 0;
+  $scope.transloaditParams = angular.fromJson({
+    auth: { key: "79af1338b0364303b9caa569fc37641f" },
+    template_id: "3e01cb70b1a611e49853952f7f0c814f",
+    expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
+  });
+  
+  // Init Transloadit with success callbacks to submit form
+  $("#uploadAudio").transloadit({
+    wait: true,
+    interval: 2500,
+    pollTimeout: 8000,
+    poll404Retries: 20,
+    autoSubmit: false,
+    onSuccess: function(assembly) {
+      console.log("Successfully uploaded! ",assembly);
+      $scope.newComment.audioId = assembly.assembly_id;
+      console.log("And successfully updated the newComment ",$scope.newComment);
+      $scope.submitForm();
+      return false;
+    },
+    onError: function(assembly) {
+      $ionicPopup.alert({
+        title: "Error",
+        template: "We're sorry, there has been an error uploading your comment. Please try again."
+      })
+    }
+  });
+  
+  // Use Recorder service to record audio; store path on success callback
   $scope.recordAudio = function() {
     Recorder.recordAudio({limit: 1, duration: 600}).then(function(result) {
-      console.log("ViewPostCtrl :: recordAudio() :: ",result);
+      $scope.recordingPath = cordova.file.tempDirectory + result[0].name;
     }, function(err) {
-      console.log("ViewPostCtrl :: recordAudio() :: ",err);
+      console.log("ViewPostCtrl :: recordAudio() fail :: ",err);
     });
   };
   
-  $scope.submitComment = function() {
-    console.log("Submitting comment by... ",$scope.user, "::", StudentInfo.user);
+  // Get the audio blob and trigger transloadit
+  $scope.uploadAndSubmit = function() {
+    var $form = $("#uploadAudio");
+    Recorder.getAudioBlob($scope.recordingPath).then(function(result) {
+      fd = [];
+      fd.push(["file", result, "blob.wav"]);
+      uploader = $form.data('transloadit.uploader');
+      uploader._options.formData = fd;
+      $form.trigger('submit.transloadit');
+    }), function(error) {
+      console.log("Transloadit - beforestart -- failed!",error);
+    }
+  }
+  
+  // Create a new Comment and submit to the backend on Transloadit success callback
+  $scope.submitForm = function() {
+    Recorder.createComment($scope.newComment).then(function(response) {
+      $state.go($state.current, {}, {reload: true});
+    }).catch(function(response) {
+      console.log("Error creating comment! ",response);
+    })
   }
   
   $scope.commentByCurrentUser = function(comment) {
@@ -82,6 +136,10 @@ angular.module('linguazone.controllers', [])
   
   $scope.commentByTeacher = function(comment) {
     return comment.user_id == $scope.post.user_id;
+  }
+  
+  $scope.getNumber = function(num) {
+    return new Array(num);
   }
   
   ClassPageItems.getPostInfo(apId).then(function(response) {
@@ -108,67 +166,6 @@ angular.module('linguazone.controllers', [])
     console.log("sorting registration...",reg);
     return new Date(reg.created_at);
   }
-  
-  //~~~~~~~~~~~~~~
-  $scope.recordingPath = null;
-  $scope.transloaditParams = angular.fromJson({
-    auth: { key: "79af1338b0364303b9caa569fc37641f" },
-    template_id: "3e01cb70b1a611e49853952f7f0c814f",
-    expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-  });
-  $scope.initComment = function() {
-    $scope.newComment = {};
-    $scope.newComment.userId = StudentInfo.user.info.id;
-    $scope.newComment.availablePostId = 20;
-    $scope.newComment.audioId = 0;
-  }
-  $scope.initComment();
-  $("#uploadAudio").transloadit({
-    wait: true,
-    interval: 2500,
-    pollTimeout: 8000,
-    poll404Retries: 20,
-    autoSubmit: false,
-    onSuccess: function(assembly) {
-      console.log("Successfully uploaded! ",assembly);
-      $scope.newComment.audioId = assembly.assembly_id;
-      $scope.submitForm();
-      return false;
-    },
-    onError: function(assembly) {
-      $ionicPopup.alert({
-        title: "Error",
-        template: "We're sorry, there has been an error uploading your comment. Please try again."
-      })
-    }
-  });
-  $scope.recordAudio = function() {
-    Recorder.recordAudio({limit: 1, duration: 600}).then(function(result) {
-      $scope.recordingPath = cordova.file.tempDirectory + result[0].name;
-    }, function(err) {
-      console.log("ViewPostCtrl :: recordAudio() fail :: ",err);
-    });
-  };
-  $scope.uploadAudio = function() {
-    var $form = $("#uploadAudio");
-    Recorder.getAudioBlob($scope.recordingPath).then(function(result) {
-      fd = [];
-      fd.push(["file", result, "blob.wav"]);
-      uploader = $form.data('transloadit.uploader');
-      uploader._options.formData = fd;
-      $form.trigger('submit.transloadit');
-    }), function(error) {
-      console.log("Transloadit - beforestart -- failed!",error);
-    }
-  }
-  $scope.submitForm = function() {
-    Recorder.createComment($scope.newComment).then(function(response) {
-      $state.reload();
-    }).catch(function(response) {
-      console.log("Error creating comment! ",response);
-    })
-  }
-  //~~~~~~~~~~~~~~
   
   $scope.student = StudentInfo.user;
   $scope.$watch(

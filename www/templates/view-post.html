@@ -14,37 +14,43 @@
             <div class="col" ng-if="comment.audio_id > 0">
               <lgz-audio-player audio-id="comment.audio_id" ng-if="comment.audio_id > 0"></lgz-audio-player>
             </div>
-            <div class="col" ng-if="comment.content">
+            <div class="col item-text-wrap" ng-if="comment.content">
               {{comment.content}}
             </div>
           </div>
         </div>
         <div class="item" ng-if="commentByCurrentUser(comment)">
-          <p ng-if="comment.teacher_note"><em>{{comment.teacher_note}}</em></p>
+          <p ng-if="comment.teacher_note" class="item-text-wrap"><em>{{comment.teacher_note}}</em></p>
           <div ng-if="comment.rating > 0">
-            {{comment.rating}} stars
+            <img ng-src="/img/star-checked.png" ng-repeat="i in getNumber(comment.rating)">
           </div>
         </div>
         <div class="item-divider">
-          -{{comment.user.display_name}}
+          - {{comment.user.display_name}}
         </div>
       </ion-item>
     </ion-list>
     
-    <form style="max-width: 500px">
+    <div style="max-width: 500px">
       <p>Leave a comment</p>
       <div class="list list-inset">
-        <p>Your name: {{user.info.display_name}}</p>
-        <label class="item item-input">
-          <textarea placeholder="Your comment"></textarea>
-        </label>
+        
+        <form id="uploadAudio" enctype="multipart/form-data">
+          <p>Your name: {{user.info.display_name}}</p>
+          <label class="item item-input">
+            <textarea ng-model="newComment.content" placeholder="Your comment"></textarea>
+          </label>
+          <input type="hidden" ng-model="newComment.audioId" id="commentAudioId" />
+          <input type="hidden" name="params" value="{{transloaditParams}}">
+        </form>
+        
         <label class="item item-input">
           <button class="button button-outline button-assertive" ng-click="recordAudio()">
-            <i class="icon ion-android-microphone"></i> Record an audio comment {{tmp}}
+            <i class="icon ion-android-microphone"></i> Record an audio comment
           </button>
         </label>
       </div>
-      <button class="button button-positive" ng-click="submitComment()">Submit your comment</button>
-    </p>
+      <button class="button button-positive" ng-click="uploadAndSubmit()">Submit your comment</button>
+    </div>
   </ion-content>
 </ion-view>
