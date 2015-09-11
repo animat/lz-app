@@ -18,6 +18,8 @@
     "semver": "^4.3.0"
   },
   "cordovaPlugins": [
+    "net.yoik.cordova.plugins.screenorientation",
+    "org.apache.cordova.statusbar",
     "org.apache.cordova.device",
     "org.apache.cordova.console",
     "com.ionic.keyboard"
