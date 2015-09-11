@@ -1,1 +1,0 @@
-/LZGAMESRC/lib/lgz/js/msgframe.js
