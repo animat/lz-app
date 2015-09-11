@@ -1,7 +1,7 @@
 <ion-view view-title="Play a game!" ng-controller="PlayGameCtrl">
   <ion-content id="lgzPlayContent" class="padding">
     
-    <div ng-show="ag.game.activity.html5_compatible" ng-cloak>    
+    <div ng-show="ag.game.activity.html5_compatible == 1" >    
       <h1>Play {{ag.game.activity.name}}</h1>
       <!--
       <h3>GameId: {{ag.game_id}}</h3>
@@ -13,7 +13,7 @@
       </div>
     </div>
     
-    <div ng-show="!ag.game.activity.html5_compatible" ng-cloak>
+    <div ng-show="ag.game.activity.html5_compatible == 0" >
       <h1>Designed for desktop</h1>
       <img ng-src="http://linguazone.s3.amazonaws.com/images/games/{{ag.game.activity.swf}}/{{ag.game.activity.swf}}.jpg">
       <h3>This game is not yet compatible with iOS. Try playing the game on a desktop or laptop for now.</h3>
