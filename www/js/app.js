@@ -181,6 +181,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
 
   .state('app.new-registration', {
     url: '/new-registration',
+    cache: true,
     views: {
       'app-account': {
         templateUrl: 'templates/new-registration.html'
