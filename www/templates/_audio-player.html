@@ -1,6 +1,12 @@
-<div class="audio_player">
-  <p>Playing audio id... {{audioId}}</p>
-	<audio controls preload="none">
-		<source ng-src="{{audioUrl}}" />
-	</audio>
-</div>
+<videogular class="videogular-container audio ng-isolate">
+    <vg-media vg-theme="vgTheme" vg-src="config.sources" vg-type="audio"></vg-media>
+
+    <vg-controls>
+        <vg-play-pause-button></vg-play-pause-button>
+        <vg-time-display>{{ currentTime | date:'mm:ss':'+0000' }}</vg-time-display>
+        <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+        </vg-scrub-bar>
+        <vg-time-display>{{ timeLeft | date:'mm:ss':'+0000' }}</vg-time-display>
+    </vg-controls>
+</videogular>

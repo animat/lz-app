@@ -12,7 +12,9 @@
         <div class="audio_comment item">
           <div class="row">
             <div class="col" ng-if="comment.audio_id > 0">
-              <lgz-audio-player audio-id="comment.audio_id" ng-if="comment.audio_id > 0"></lgz-audio-player>
+              
+              <lgz-audio-player audio-id="comment.audio_id"></lgz-audio-player>
+              
             </div>
             <div class="col item-text-wrap" ng-if="comment.content">
               {{comment.content}}
@@ -25,7 +27,7 @@
             <img ng-src="/img/star-checked.png" ng-repeat="i in getNumber(comment.rating)">
           </div>
         </div>
-        <div class="item-divider">
+        <div class="item-divider citation">
           - {{comment.user.display_name}}
         </div>
       </ion-item>

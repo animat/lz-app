@@ -9,7 +9,12 @@ angular.module('linguazone.directives', [])
     templateUrl: 'templates/_audio-player.html',
     link: function(scope, element, attrs) {
       // TODO: Is this the best way to pass a trusted resource variable into a directive?
-      scope.audioUrl = $sce.trustAsResourceUrl(K.baseUrl.audio + '/' + scope.audioId + '.mp3');
+      scope.config = {
+        sources: [
+          {src: $sce.trustAsResourceUrl(K.baseUrl.mma + '/audio/' + scope.audioId + '.mp3'), type: "audio/mp3"}
+        ]
+      }
+      console.log("Created! And the config is: ",scope.config);
     }
   }
 })

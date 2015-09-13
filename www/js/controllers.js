@@ -60,7 +60,7 @@ angular.module('linguazone.controllers', [])
   })
 })
 
-.controller('ViewPostCtrl', function($scope, $state, $stateParams, StudentInfo, ClassPageItems, Recorder) {
+.controller('ViewPostCtrl', function($scope, $state, $stateParams, $sce, StudentInfo, ClassPageItems, Recorder) {
   var apId = $stateParams.apId;
   $scope.user = StudentInfo.user;
   
@@ -141,6 +141,8 @@ angular.module('linguazone.controllers', [])
   $scope.getNumber = function(num) {
     return new Array(num);
   }
+  
+  $scope.vgTheme = "http://www.videogular.com/styles/themes/default/latest/videogular.css";
   
   ClassPageItems.getPostInfo(apId).then(function(response) {
     $scope.post = angular.fromJson(response.post);

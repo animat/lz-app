@@ -10,7 +10,7 @@ LZCONF.baseUrl = {
         api: 'http://localhost:3000/api/v2',
         games: 'http://lz-staging.s3.amazonaws.com/games',
         lang: 'http://lz-staging.herokuapp.com/games',
-        mma: 'http://lz-staging.s3.amazonaws.com'
+        mma: 'http://linguazone.s3.amazonaws.com'
     },
     LZSTAGING: {
       api: 'http://lz-staging.herokuapp.com/api/v2',
@@ -21,6 +21,6 @@ LZCONF.baseUrl = {
 };
 var K =  {};
 
-K.baseUrl = LZCONF.baseUrl.LZSTAGING;
+K.baseUrl = LZCONF.baseUrl.LZDEV;
 
 

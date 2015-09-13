@@ -23,10 +23,8 @@
   padding: 5px;
 }
 
-.audio_comment {
-  padding: 5px;
-  margin: 10px 0px;
-  background-color: #CCC;
+.card .citation {
+  background-color: #fff;
 }
 .audio_player {
   border: 1px solid black;
