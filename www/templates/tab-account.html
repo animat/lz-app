@@ -15,13 +15,13 @@
           Sign out of your account <i class="icon ion-log-out"></i>
         </button>
       </div>
-      <div class="item item-text-wrap" ng-show="!user.uid" ng-cloak>
-        <button class="button button-clear button-balanced" ui-sref="app.login">
+      <div class="item item-text-wrap" ng-show="!user.uid" ui-sref="app.login" ng-cloak>
+        <button class="button button-clear button-balanced">
           <i class="icon ion-log-in"></i> Sign in to your account
         </button>
       </div>
-      <div class="item item-text-wrap" ng-show="!user.uid" ng-cloak>
-        <button class="button button-clear button-balanced" ui-sref="app.new-user">
+      <div class="item item-text-wrap" ng-show="!user.uid" ui-sref="app.new-user" ng-cloak>
+        <button class="button button-clear button-balanced">
           <i class="icon ion-ios-plus-outline"></i> Create a LinguaZone.com account
         </button>
       </div>
@@ -32,8 +32,8 @@
         Classes
       </div>
       
-      <div class="item item-content">
-        <button class="button button-clear button-positive" ui-sref="app.new-registration" id="searchForClassBtn">
+      <div class="item item-content" ui-sref="app.new-registration">
+        <button class="button button-clear button-positive" id="searchForClassBtn">
           <i class="icon ion-ios-search"></i> Search for a class page
         </button>
       </div>

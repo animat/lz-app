@@ -1,14 +1,14 @@
 <ion-view view-title="{{title}}" ng-controller="ClassPageCtrl">
   <ion-content class="padding" ng-cloak>
     
-    <div ng-if="!hasCourseSelected && !hasContent">
+    <div ng-if="!hasCourseSelected && !hasContent" ng-cloak>
       <div id="welcomeMessage" class="blankStateMessage">
         <img src="img/frog.png" />
         <p>Find your class page from the <a href="#" ui-sref="app.account">Account</a> tab to get started.</p>
       </div>
     </div>
     
-    <div ng-if="hasCourseSelected && !hasContent">
+    <div ng-if="hasCourseSelected && !hasContent" ng-cloak>
       <div class="blankStateMessage">
         <img src="img/oh-no.png" />
         <p>
