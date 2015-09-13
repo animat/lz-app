@@ -12,7 +12,7 @@
  */
 /*jslint  nomen: true, sloppy: true */
 
-angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services', 'linguazone.directives', 'ng-token-auth'])
+angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.services', 'linguazone.directives', 'ng-token-auth', 'ngLoadingSpinner'])
 
 .run(function ($ionicPlatform) {
   $ionicPlatform.ready(function () {

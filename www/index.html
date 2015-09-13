@@ -27,6 +27,9 @@
     <script src="lib/angular-cookie.min.js"></script>
     <script src="lib/ng-token-auth.min.js"></script>
     <script src="lib/jquery.transloadit.js"></script>
+    <script src="lib/spin.min.js"></script>
+    <script src="lib/angular-spinner.min.js"></script>
+    <script src="lib/angular-loading-spinner.js"></script>
     
     <!-- app -->
     <script src="js/app.js"></script>
@@ -43,6 +46,8 @@
       <ion-nav-back-button>
       </ion-nav-back-button>
     </ion-nav-bar>
+    <span us-spinner="{radius: 50, width: 2, length: 35, speed: 1.6, trail: 50, shadow: true, hwaccel: true}"></span>
+    <div id="spinnerOverlay" class="ng-hide"></div>
     <!--
       The views will be rendered in the <ion-nav-view> directive below
       Templates are in the /templates folder (but you could also
