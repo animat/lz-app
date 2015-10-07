@@ -18,6 +18,7 @@
     "semver": "^4.3.0"
   },
   "cordovaPlugins": [
+    "org.apache.cordova.media-capture",
     "net.yoik.cordova.plugins.screenorientation",
     "org.apache.cordova.statusbar",
     "org.apache.cordova.device",
