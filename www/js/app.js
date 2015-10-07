@@ -65,7 +65,7 @@ angular.module('linguazone', ['ionic', 'linguazone.controllers', 'linguazone.ser
 
 .config(function($authProvider) {
   $authProvider.configure({
-    apiUrl:                 'http://localhost:3000/api/v2',
+    apiUrl:                 K.baseUrl.api,
     tokenValidationPath:    '/auth/validate_token',
     signOutUrl:             '/auth/sign_out',
     emailRegistrationPath:  '/auth',
