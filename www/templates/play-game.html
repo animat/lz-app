@@ -7,9 +7,10 @@
       <h3>GameId: {{ag.id}}</h3>
       <h3>UserId: {{playerId}}</h3>
       <h3>HTML5: {{ag.game.activity.html5_compatible}}</h1>
+     600x425
       -->
-      <div>
-        <iframe id="lgzFrame" src userid="{{playerId}}" gameid="{{ag.id}}" gameswf="{{ag.game.activity.swf}}" height="425" width="600" frameBorder="0" ></iframe>
+      <div id="lgzGameDiv">
+        <iframe id="lgzFrame" src userid="{{playerId}}" gameid="{{ag.id}}" gameswf="{{ag.game.activity.swf}}"  ></iframe>
       </div>
     </div>
     

@@ -58,9 +58,12 @@ Lgz._initFrameParentEvents = function ($lgzFrame, $scope, $ionicPopup) {
         console.log('frameParent.eventViewFullScreen:');
 
         frameParent._super.eventViewFullScreen.call(frameParent);
+
         $navBar.attr('class', 'hide');
         $tabBar.attr('class', 'hide');
         $playContent.attr('class', '');
+	
+	frameParent.iframeFs();
         
     };
     //
@@ -73,6 +76,13 @@ Lgz._initFrameParentEvents = function ($lgzFrame, $scope, $ionicPopup) {
         $navBar.attr('class', origNavClass);
         $tabBar.attr('class', origTabClass);
         $playContent.attr('class', origPlayContentClass);
+
+    	window.setTimeout(
+        	function () {
+		  frameParent.iframeNormal();
+        	},
+        	400
+    	);
     };
 
     frameParent.eventAlertError = function (msg) {
@@ -91,6 +101,7 @@ Lgz.initMsgFrameNative = function ($scope, $ionicPopup) {
     'use strict';
     var $lgzFrame;
     $lgzFrame = $('#lgzFrame');
+
     if ($lgzFrame.length) {
         if (!Lgz.frameParent) {
             Lgz.frameParent = new LgzLib.MsgFrames.ParentNative();
