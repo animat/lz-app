@@ -3,14 +3,8 @@
     
     <div ng-show="ag.game.activity.html5_compatible == 1" >    
       <h1>Play {{ag.game.activity.name}}</h1>
-      <!--
-      <h3>GameId: {{ag.id}}</h3>
-      <h3>UserId: {{playerId}}</h3>
-      <h3>HTML5: {{ag.game.activity.html5_compatible}}</h1>
-     600x425
-      -->
-      <div id="lgzGameDiv">
-        <iframe id="lgzFrame" src userid="{{playerId}}" gameid="{{ag.id}}" gameswf="{{ag.game.activity.swf}}"  ></iframe>
+      <div id="lgzFrameWrap">
+        <iframe id="lgzFrame" allowfullscreen="true" src userid="{{playerId}}" gameid="{{ag.id}}" gameswf="{{ag.game.activity.swf}}"  ></iframe>
       </div>
     </div>
     

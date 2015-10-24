@@ -11,7 +11,11 @@
 /*jslint  nomen: true */
 
 var Lgz = Lgz || {};
-
+Lgz.ParentIonic = function () {
+   'use strict';
+   this._$super('ParentNative','constructor');
+};
+Lgz.ParentIonic.lgzExtends(LgzLib.MsgFrames.ParentNative,'ParentNative');
 Lgz._initFrameParentEvents = function ($lgzFrame, $scope, $ionicPopup) {
     'use strict';
 
@@ -27,18 +31,9 @@ Lgz._initFrameParentEvents = function ($lgzFrame, $scope, $ionicPopup) {
         $playContent,
         origPlayContentClass;
 
-    console.log('Lgz.newMsgFrame:');
+    // console.log('Lgz.newMsgFrame:');
 
     frameParent = Lgz.frameParent;
-
-    // note: here we put display orientation
-    // back to normal after game exits
-    // - assuming display should return to locked portrait mode.
-    frameParent.eventOrientNormal = function () {
-        console.log('frameParent.eventOrientNormal:');
-        screen.lockOrientation('portrait');
-    };
-
     //
     // hide ionic navbar and tabbar during fullscreen 
     //
@@ -50,39 +45,33 @@ Lgz._initFrameParentEvents = function ($lgzFrame, $scope, $ionicPopup) {
     origTabClass = $tabBar.attr('class');
 
     $playContent  = $('#lgzPlayContent');
-    console.log('$playContent: ' + $playContent);
+    // console.log('$playContent: ' + $playContent);
 
     origPlayContentClass = $playContent.attr('class');
 
     frameParent.eventViewFullScreen = function () {
-        console.log('frameParent.eventViewFullScreen:');
+        // console.log('frameParent.eventViewFullScreen:');
 
-        frameParent._super.eventViewFullScreen.call(frameParent);
 
         $navBar.attr('class', 'hide');
         $tabBar.attr('class', 'hide');
         $playContent.attr('class', '');
 	
-	frameParent.iframeFs();
+        frameParent._$super('ParentNative','eventViewFullScreen');
         
     };
     //
     // restore ionic nav and tab bars
     //
     frameParent.eventViewNormal = function () {
-        console.log('frameParent.eventViewNormal:');
+        // console.log('frameParent.eventViewNormal:');
 
-        frameParent._super.eventViewNormal.call(frameParent);
         $navBar.attr('class', origNavClass);
         $tabBar.attr('class', origTabClass);
         $playContent.attr('class', origPlayContentClass);
 
-    	window.setTimeout(
-        	function () {
-		  frameParent.iframeNormal();
-        	},
-        	400
-    	);
+        frameParent._$super('ParentNative','eventViewNormal');
+
     };
 
     frameParent.eventAlertError = function (msg) {
@@ -100,17 +89,20 @@ Lgz._initFrameParentEvents = function ($lgzFrame, $scope, $ionicPopup) {
 Lgz.initMsgFrameNative = function ($scope, $ionicPopup) {
     'use strict';
     var $lgzFrame;
+    // console.log('Lgz.initMsgFrameNative:');
     $lgzFrame = $('#lgzFrame');
 
     if ($lgzFrame.length) {
         if (!Lgz.frameParent) {
-            Lgz.frameParent = new LgzLib.MsgFrames.ParentNative();
+	    // console.log('   !Lgz.frameParent');
+            Lgz.frameParent = new Lgz.ParentIonic();
         } else {
+	    // console.log('   Lgz.frameParent.attachToDOM');
             Lgz.frameParent.attachToDOM();
         }
         Lgz._initFrameParentEvents($lgzFrame, $scope, $ionicPopup);
 
-        console.log('initMsgFrame: adding loader url');
+        // console.log('initMsgFrame: adding loader url');
         $lgzFrame.attr('src', 'loader/loader.html');
     } else {
         console.error('initMsgFrame: no lgzFrame found!');
